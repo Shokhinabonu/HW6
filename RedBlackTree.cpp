@@ -64,11 +64,10 @@ void RedBlackTree::Insert(int node)
     {
         if (currRoot->data > node)
         {
-
             currRoot = currRoot->left;
         }
 
-        if (currRoot->data < node)
+        else if (currRoot->data < node)
         {
             currRoot = currRoot->right;
         }
@@ -81,6 +80,7 @@ void RedBlackTree::Insert(int node)
         newNode->color = COLOR_BLACK;
         this->root = newNode;
         return;
+        
     }
     else
     {
