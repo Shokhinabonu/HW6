@@ -46,4 +46,5 @@ private:
     string ToPostfixString(RBTNode *root) const;
 
     void RightRotate(RBTNode *node);
+    void LeftRotate(RBTNode *node);
 };
