@@ -44,4 +44,6 @@ private:
     string ToInfixString(RBTNode *root) const;
     string ToPrefixString(RBTNode *root) const;
     string ToPostfixString(RBTNode *root) const;
+
+    void RightRotate(RBTNode *node);
 };

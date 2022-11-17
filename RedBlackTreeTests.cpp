@@ -36,50 +36,50 @@ void TestInsertSecondNode()
 	rbt->Insert(30); // leak here
 	rbt->Insert(15);
 	cout << "rbt: " << rbt->ToPrefixString() << endl;
-	// assert(rbt->ToPrefixString() == " B30  R15 ");
+	assert(rbt->ToPrefixString() == " B30  R15 ");
 	delete rbt;
 
-	// rbt = new RedBlackTree();
-	// rbt->Insert(30);
-	// rbt->Insert(45);
-	// cout << "rbt: " << rbt->ToPrefixString() << endl;
-	// assert(rbt->ToPrefixString() == " B30  R45 ");
-	// delete rbt;
+	rbt = new RedBlackTree();
+	rbt->Insert(30);
+	rbt->Insert(45);
+	cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B30  R45 ");
+	delete rbt;
 
 	cout << "PASSED!" << endl
 		 << endl;
 }
 
-// void TestInsertThirdNode(){
-// 	cout << "Testing Insert Third Node..." << endl;
-// 	RedBlackTree *rbt = new RedBlackTree();
-// 	rbt->Insert(30);
-// 	rbt->Insert(15);
-// 	rbt->Insert(10); // Left Left
-// 	//cout << "rbt: "  << rbt->ToPrefixString() << endl;
-// 	assert(rbt->ToPrefixString() == " B15  R10  R30 ");
-// 	delete rbt;
+void TestInsertThirdNode(){
+	cout << "Testing Insert Third Node..." << endl;
+	RedBlackTree *rbt = new RedBlackTree();
+	rbt->Insert(30);
+	rbt->Insert(15);
+	rbt->Insert(10); // Left Left
+	cout << "rbt: "  << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B15  R10  R30 ");
+	delete rbt;
 
-// 	rbt = new RedBlackTree();
-// 	rbt->Insert(30);
-// 	rbt->Insert(15);
-// 	rbt->Insert(25); // Right Left
-// 	assert(rbt->ToPrefixString() == " B25  R15  R30 ");
-// 	delete rbt;
+	// rbt = new RedBlackTree();
+	// rbt->Insert(30);
+	// rbt->Insert(15);
+	// rbt->Insert(25); // Right Left
+	// assert(rbt->ToPrefixString() == " B25  R15  R30 ");
+	// delete rbt;
 
-// 	rbt = new RedBlackTree();
-// 	rbt->Insert(30);
-// 	rbt->Insert(15);
-// 	rbt->Insert(45); // Easy case
-// 	assert(rbt->ToPrefixString() == " B30  R15  R45 ");
-// 	delete rbt;
+	// rbt = new RedBlackTree();
+	// rbt->Insert(30);
+	// rbt->Insert(15);
+	// rbt->Insert(45); // Easy case
+	// assert(rbt->ToPrefixString() == " B30  R15  R45 ");
+	// delete rbt;
 
-// 	// more tests go here
-// 	// consider some symmetry!
+	// more tests go here
+	// consider some symmetry!
 
-// 	cout << "TESTS MISSING" << endl << endl;
-// 	cout << "PASSED!" << endl << endl;
-// }
+	cout << "TESTS MISSING" << endl << endl;
+	cout << "PASSED!" << endl << endl;
+}
 
 // void TestInsertFourthNode(){
 // 	cout << "Testing Insert Fourth Node..." << endl;
@@ -223,7 +223,7 @@ int main()
 
 	TestInsertFirstNode();
 	TestInsertSecondNode();
-	// TestInsertThirdNode();
+	TestInsertThirdNode();
 	// TestInsertFourthNode();
 	// TestInsertFifthNode();
 

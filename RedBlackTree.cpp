@@ -62,6 +62,8 @@ void RedBlackTree::Insert(int node)
     RBTNode *currRoot = this->root;
     while (currRoot != nullptr)
     {
+        // cout << "current int: " << this->root->data << endl;
+        currParent = currRoot;
         if (currRoot->data > node)
         {
             currRoot = currRoot->left;
@@ -71,45 +73,49 @@ void RedBlackTree::Insert(int node)
         {
             currRoot = currRoot->right;
         }
-
-        currParent = currRoot;
     }
+
+    newNode->parent = currParent;
 
     if (currParent == nullptr)
     {
         newNode->color = COLOR_BLACK;
         this->root = newNode;
         return;
-        
     }
     else
     {
         newNode->color = COLOR_RED;
-        newNode->parent = currParent;
 
         if (currParent->data > newNode->data)
         {
+
             currParent->left = newNode;
         }
-        if (currParent->data < newNode->data)
+        else if (currParent->data < newNode->data)
         {
             currParent->right = newNode;
         }
+    }
 
-        currRoot->parent = currParent;
+    while (newNode->parent->color == COLOR_RED)
+    {
+        if (newNode->parent == newNode->parent->parent->left)
+        { // if the parent is on the left of its parent
+            if (newNode->parent->parent->right == nullptr)
+            { // if the uncle is black or NULL
+                newNode->parent->color = COLOR_BLACK;
+                newNode->parent->parent->color = COLOR_RED;
+                RightRotate(newNode->parent->parent);
+            }
+        }
     }
 }
 
-// void RedBlackTree::InsertRecursiveHelper(RBTNode *currRoot, int currNodeData)
-// {
-// if (currRoot = nullptr)
-// {
-//     root->data = currNodeData;
-//     root->color = COLOR_BLACK;
-//     return;
-// }
+void RedBlackTree::RightRotate(RBTNode *node)
+{
+    RBTNode *newRootNode = node->left;
 
-// if (currRoot->data > currNodeData){
-//     InsertRecursiveHelper
-// }
-// }
+    node->parent = newRootNode;
+    newRootNode->right = node;
+}
