@@ -112,11 +112,11 @@ void RedBlackTree::Insert(int node)
                     RightRotate(newNode->parent->parent);
                 }
                 else if (newNode->parent->right == newNode)
-                {
-                     cout<<"BEFORE"<<newNode->parent->data<<endl;
-                    LeftRotate(newNode->parent);
-                    cout<<"AFTER"<<newNode->parent->data<<endl;
-                   RightRotate(newNode->parent);
+                { 
+                    newNode->color=COLOR_BLACK;
+                       newNode->parent->parent->color = COLOR_RED;
+                    LeftRotate(newNode->parent); 
+                  RightRotate(newNode->parent); 
                 }
             }
             // else if (newNode->parent->parent->right != nullptr)
@@ -141,6 +141,10 @@ void RedBlackTree::Insert(int node)
                 // RightRotate(newNode->parent->parent);
             }
         }
+if(newNode==root){
+break;
+}
+        
     }
 }
 
@@ -152,13 +156,11 @@ void RedBlackTree::RightRotate(RBTNode *node)
     this->root = currNode;
     node->left = nullptr;
     node->parent = currNode;
-    
-    // cout << "rbt: " << node->parent->data << endl;
-
-    //  cout << "rbt: "  <<  ToPrefixString() << endl;
+     
     currNode->parent = nullptr;
 
     currNode->right = node; 
+ 
 }
 
 void RedBlackTree::LeftRotate(RBTNode *node)
