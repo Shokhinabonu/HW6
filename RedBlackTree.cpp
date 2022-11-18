@@ -106,77 +106,124 @@ void RedBlackTree::Insert(int node)
             if (newNode->parent->parent->right == nullptr)
             { // if the uncle is black or NULL
                 if (newNode->parent->left == newNode)
-                {
+                { // if the newnode is on the left side of its parent
+
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     RightRotate(newNode->parent->parent);
                 }
                 else if (newNode->parent->right == newNode)
-                { 
-                    newNode->color=COLOR_BLACK;
-                       newNode->parent->parent->color = COLOR_RED;
-                    LeftRotate(newNode->parent); 
-                  RightRotate(newNode->parent); 
+                { // if the newnode is on the right side of its parent
+                    newNode->color = COLOR_BLACK;
+                    newNode->parent->parent->color = COLOR_RED;
+                    LeftRotate(newNode->parent);
+                    RightRotate(newNode->parent);
                 }
             }
-            // else if (newNode->parent->parent->right != nullptr)
-            // { // if the right child of the grandparent exists
-            //     if (newNode->parent->parent->right->color == COLOR_RED)
-            //     { // and if it is red
-            //         newNode->parent->parent->right->color = COLOR_BLACK;
-            //         newNode->parent->parent->left->color = COLOR_BLACK;
-            //         newNode->parent->parent->color = COLOR_RED;
-
-            //         RBTNode *currNode = newNode->parent->parent;
-            //         newNode->parent->parent = newNode; // just the data?
-            //         newNode = currNode;
-            //     }
-            // }
-            else if (newNode->parent->right == newNode)
+            else if (newNode->parent->parent->right->color == COLOR_RED)
             {
-                // int data = newNode->parent->data;
-                // newNode->parent->data = newNode->data;
-                // newNode->data = data;
-                // LeftRotate(newNode->parent->parent);
-                // RightRotate(newNode->parent->parent);
+                newNode->parent->parent->color = COLOR_BLACK;
+                newNode->parent->parent->right->color = COLOR_BLACK;
+                newNode->parent->parent->left->color = COLOR_BLACK;
+                newNode = newNode->parent->parent;
             }
         }
-if(newNode==root){
-break;
-}
-        
+        else if (newNode->parent == newNode->parent->parent->right)
+        {
+            if (newNode->parent->parent->left == nullptr)
+            {
+                if (newNode->parent->right == newNode)
+                {
+                    newNode->parent->color = COLOR_BLACK;
+                    newNode->parent->parent->color = COLOR_RED;
+                    RightRotate(newNode->parent->parent);
+                }
+                else if (newNode->parent->left == newNode)
+                {
+                    newNode->color = COLOR_BLACK;
+                    newNode->parent->parent->color = COLOR_RED;
+                    LeftRotate(newNode->parent);
+                    RightRotate(newNode->parent);
+                }
+            }
+            else if (newNode->parent->parent->left->color == COLOR_RED)
+            {
+                newNode->parent->parent->color = COLOR_BLACK;
+                newNode->parent->parent->right->color = COLOR_BLACK;
+                newNode->parent->parent->left->color = COLOR_BLACK;
+                newNode = newNode->parent->parent;
+            }
+        }
+
+        if (newNode == root)
+        {
+            break;
+        }
+
+        this->root->color = COLOR_BLACK;
     }
 }
 
 void RedBlackTree::RightRotate(RBTNode *node)
-{
+{ // we are passing the grandparent
 
     RBTNode *currNode = node->left;
-    
-    this->root = currNode;
-    node->left = nullptr;
-    node->parent = currNode;
-     
-    currNode->parent = nullptr;
 
-    currNode->right = node; 
- 
+    node->left = nullptr; //
+    if (currNode->right != nullptr)
+    {
+        node->left = currNode->right;
+        currNode->right->parent = node;
+    }
+
+    currNode->right = node;
+
+    if (node->parent == nullptr)
+    {
+        currNode->parent = nullptr;
+        this->root = currNode;
+    }
+    else if (node->parent->left == node)
+    {
+        currNode->parent = node->parent;
+        node->parent->left = currNode;
+    }
+    else if (node->parent->right == node)
+    {
+        currNode->parent = node->parent;
+        node->parent->right = currNode;
+    }
+    node->parent = currNode;
 }
 
 void RedBlackTree::LeftRotate(RBTNode *node)
-{
-   
-    RBTNode *newParentNode = node->parent;
+{ // we are passing the parent
 
     RBTNode *currNode = node->right;
 
-    node->parent = currNode;
-    node->right = nullptr;
+    node->right = nullptr; //
+    if (currNode->left != nullptr)
+    {
+        node->right = currNode->left;
+        currNode->left->parent = node;
+    }
 
-    currNode->parent = newParentNode;
-    newParentNode->left = currNode;
     currNode->left = node;
 
-    // cout << "rbt: " << newParentNode->left->data << endl;
-    // cout << "rbt: " << ToPostfixString() << endl;
+    if (node->parent == nullptr)
+    {
+        currNode->parent = nullptr;
+        this->root = currNode;
+    }
+    else if (node->parent->right == node)
+    {
+        currNode->parent = node->parent;
+        node->parent->right = currNode;
+    }
+    else if (node->parent->left == node)
+    {
+        currNode->parent = node->parent;
+        node->parent->left = currNode;
+    }
+    node->parent = currNode;
 }
