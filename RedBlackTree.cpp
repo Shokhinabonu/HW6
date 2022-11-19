@@ -153,7 +153,7 @@ int RedBlackTree::GetMax()
 bool RedBlackTree::Contains(int node)
 {
     bool found = false;
-    int currLength = 0;
+    long long unsigned int currLength = 0;
     RBTNode *currNode = this->root;
 
     while (!found && (currLength < numItems))
