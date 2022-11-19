@@ -267,8 +267,9 @@ void RedBlackTree::Insert(int node)
                 {
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
-                    LeftRotate(newNode->parent);
+                    
                     RightRotate(newNode->parent);
+                    LeftRotate(newNode->parent);
                 }
             }
             else if (newNode->parent->parent->left->color == COLOR_RED)
