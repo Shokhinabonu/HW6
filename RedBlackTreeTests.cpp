@@ -182,7 +182,6 @@ void TestInsertFifthNode()
 	rbt->Insert(25);
 	// cout << "result: " << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
-	delete rbt;
 
 	rbt = new RedBlackTree();
 	rbt->Insert(11);
@@ -199,10 +198,10 @@ void TestInsertFifthNode()
 	rbt->Insert(23);
 	rbt->Insert(4);
 	rbt->Insert(6);
-	rbt->Insert(77); 
+	rbt->Insert(77);
 	// cout << "result: " <<rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B11  B4  R6  B23  R77 ");
-
+	delete rbt;
 	cout << "PASSED!" << endl
 		 << endl;
 }
