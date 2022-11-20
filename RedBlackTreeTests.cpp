@@ -25,6 +25,28 @@ void TestInsertFirstNode()
 	// cout << "rbt: " << rbt.ToPrefixString() << endl;
 	assert(rbt.ToPrefixString() == " B30 ");
 
+	RedBlackTree rbt1 = RedBlackTree();
+	rbt1.Insert(-1);
+	// cout << "rbt: " << rbt.ToPrefixString() << endl;
+	assert(rbt1.ToPrefixString() == " B-1 ");
+
+	RedBlackTree rbt2 = RedBlackTree();
+	// cout << "rbt: " << rbt.ToPrefixString() << endl;
+	assert(rbt2.ToPrefixString() == "");
+
+	RedBlackTree rbt4 = RedBlackTree();
+	rbt4.Insert(44);
+	rbt4.Insert(55);
+	rbt4.Insert(66);
+	try
+	{
+		rbt4.Insert(66);
+		assert(false);
+	}
+	catch (const invalid_argument &e)
+	{
+	}
+
 	cout << "PASSED!" << endl
 		 << endl;
 }
@@ -35,7 +57,7 @@ void TestInsertSecondNode()
 	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(30); // leak here
 	rbt->Insert(15);
-	// cout << "rbt: " << rbt->ToPrefixString() << endl;
+	cout << "rbt: " << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B30  R15 ");
 	delete rbt;
 
@@ -61,6 +83,14 @@ void TestInsertThirdNode()
 	assert(rbt->ToPrefixString() == " B15  R10  R30 ");
 	delete rbt;
 
+	RedBlackTree *rbtt = new RedBlackTree();
+	rbtt->Insert(30);
+	rbtt->Insert(40);
+	rbtt->Insert(50);
+	// cout << "rbt: " << rbtt->ToPrefixString() << endl;
+	assert(rbtt->ToPrefixString() == " B40  R30  R50 ");
+	delete rbtt;
+
 	rbt = new RedBlackTree();
 	rbt->Insert(30);
 	rbt->Insert(15);
@@ -77,11 +107,22 @@ void TestInsertThirdNode()
 	assert(rbt->ToPrefixString() == " B30  R15  R45 ");
 	delete rbt;
 
-	// more tests go here
-	// consider some symmetry!
+	rbt = new RedBlackTree();
+	rbt->Insert(30);
+	rbt->Insert(45);
+	rbt->Insert(50); // Easy case
+	//  cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B45  R30  R50 ");
+	delete rbt;
 
-	cout << "TESTS MISSING" << endl
-		 << endl;
+	rbt = new RedBlackTree();
+	rbt->Insert(30);
+	rbt->Insert(45);
+	rbt->Insert(40); // Easy case
+	//  cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B40  R30  R45 ");
+	delete rbt;
+
 	cout << "PASSED!" << endl
 		 << endl;
 }
@@ -95,8 +136,35 @@ void TestInsertFourthNode()
 	rbt->Insert(15);
 	rbt->Insert(10);
 	rbt->Insert(5);
-	cout << "rbt: " << rbt->ToPrefixString() << endl;
+	// cout << "rbt: " << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B15  B10  R5  B30 ");
+	delete rbt;
+
+	rbt = new RedBlackTree();
+	rbt->Insert(30);
+	rbt->Insert(40);
+	rbt->Insert(10);
+	rbt->Insert(60);
+	// cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B30  B10  B40  R60 ");
+	delete rbt;
+
+	rbt = new RedBlackTree();
+	rbt->Insert(24);
+	rbt->Insert(20);
+	rbt->Insert(30);
+	rbt->Insert(51);
+	// cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B24  B20  B30  R51 ");
+	delete rbt;
+
+	rbt = new RedBlackTree();
+	rbt->Insert(42);
+	rbt->Insert(67);
+	rbt->Insert(1);
+	rbt->Insert(9);
+	// cout << "rbt: " << rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B42  B1  R9  B67 ");
 	delete rbt;
 
 	cout << "PASSED!" << endl
@@ -112,22 +180,28 @@ void TestInsertFifthNode()
 	rbt->Insert(45);
 	rbt->Insert(10);
 	rbt->Insert(25);
-	cout << "result: " << rbt->ToPrefixString() << endl;
+	// cout << "result: " << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
 	delete rbt;
 
-	// RedBlackTree rbt1 = RedBlackTree();
-	// rbt1.Insert(11);
-	// rbt1.Insert(23);
-	// rbt1.Insert(9);
-	// rbt1.Insert(52);
-	// rbt1.Insert(31);
-	// rbt1.Insert(4);
-	// cout << "result: " << rbt1.ToPrefixString() << endl;//?
-	// // assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
+	rbt = new RedBlackTree();
+	rbt->Insert(11);
+	rbt->Insert(23);
+	rbt->Insert(9);
+	rbt->Insert(52);
+	rbt->Insert(31);
+	rbt->Insert(4);
+	// cout << "result: " <<rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B11  B9  R4  B31  R23  R52 ");
 
-	cout << "TESTS MISSING" << endl
-		 << endl;
+	rbt = new RedBlackTree();
+	rbt->Insert(11);
+	rbt->Insert(23);
+	rbt->Insert(4);
+	rbt->Insert(6);
+	rbt->Insert(77); 
+	// cout << "result: " <<rbt->ToPrefixString() << endl;
+	assert(rbt->ToPrefixString() == " B11  B4  R6  B23  R77 ");
 
 	cout << "PASSED!" << endl
 		 << endl;
@@ -147,6 +221,11 @@ void TestToStrings()
 	assert(rbt.ToPrefixString() == " B12  B7  R5  R11  B15  R13 ");
 	assert(rbt.ToInfixString() == " R5  B7  R11  B12  R13  B15 ");
 	assert(rbt.ToPostfixString() == " R5  R11  B7  R13  B15  B12 ");
+
+	RedBlackTree rbt1 = RedBlackTree();
+	assert(rbt1.ToPrefixString() == "");
+	assert(rbt1.ToInfixString() == "");
+	assert(rbt1.ToPostfixString() == "");
 
 	cout << "PASSED!" << endl
 		 << endl;
@@ -213,6 +292,26 @@ void TestCopyConstructor()
 	assert(rbt2.ToPrefixString() != rbt1.ToPrefixString());
 	cout << "PASSED!" << endl
 		 << endl;
+
+	RedBlackTree rbt3 = RedBlackTree();
+	rbt3.Insert(11);
+	assert(rbt3.ToPrefixString() == " B11 ");
+	RedBlackTree rbt4 = RedBlackTree(rbt3);
+	assert(rbt3.ToPrefixString() == rbt4.ToPrefixString());
+	rbt3.Insert(20);
+	assert(rbt3.ToPrefixString() != rbt4.ToPrefixString());
+	cout << "PASSED!" << endl
+		 << endl;
+
+	RedBlackTree rbt6 = RedBlackTree();
+	assert(rbt6.ToPrefixString() == "");
+	RedBlackTree rbt5 = RedBlackTree(rbt6);
+	assert(rbt6.ToPrefixString() == rbt5.ToPrefixString());
+	rbt6.Insert(20);
+	assert(rbt6.ToPrefixString() != rbt5.ToPrefixString());
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
 void TestContains()
@@ -238,11 +337,17 @@ void TestContains()
 	assert(rbt->Contains(17));
 	assert(rbt->Contains(29));
 	assert(rbt->Contains(34));
+	assert(!rbt->Contains(21));
+	assert(!rbt->Contains(32));
+	assert(!rbt->Contains(54));
+	assert(!rbt->Contains(66));
 
 	delete rbt;
 
-	cout << "TESTS MISSING" << endl
-		 << endl;
+	RedBlackTree *rbt1 = new RedBlackTree();
+	assert(!rbt1->Contains(66));
+	delete rbt1;
+
 	cout << "PASSED!" << endl
 		 << endl;
 }
@@ -281,6 +386,12 @@ void TestGetMinimumMaximum()
 	assert(rbt2->GetMin() == 12);
 	assert(rbt2->GetMax() == 50);
 	delete rbt2;
+
+	RedBlackTree *rbt3 = new RedBlackTree();
+
+	assert(rbt3->GetMin() == 0);
+	assert(rbt3->GetMax() == 0);
+	delete rbt3;
 
 	cout << "PASSED!" << endl
 		 << endl;

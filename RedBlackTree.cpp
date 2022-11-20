@@ -4,10 +4,13 @@
 
 using namespace std;
 
+// The constructor
 RedBlackTree::RedBlackTree()
 {
+    // :)
 }
 
+// The destructor
 RedBlackTree::~RedBlackTree()
 {
     size_t size = vecList.size();
@@ -17,6 +20,49 @@ RedBlackTree::~RedBlackTree()
     }
 }
 
+// Copy constructor
+RedBlackTree::RedBlackTree(const RedBlackTree &rbtree)
+{
+    // new root node
+    RBTNode *newNode = new RBTNode();
+    if (rbtree.root != nullptr)
+    {
+        newNode->data = rbtree.root->data;
+        newNode->color = rbtree.root->color;
+        newNode->parent = nullptr;
+
+        if (rbtree.root->left != nullptr)
+        { // call the helper function to copy the rest of the children
+            newNode->left = copyNode(rbtree.root->left, newNode);
+        }
+        else
+        {
+            newNode->left = nullptr;
+        }
+
+        if (rbtree.root->right != nullptr)
+        { // call the helper function to copy the rest of the children
+            newNode->right = copyNode(rbtree.root->right, newNode);
+        }
+        else
+        {
+            newNode->right = nullptr;
+        }
+
+        // decalre this new node as the root
+        this->root = newNode;
+    }
+    else
+    {
+        this->root = nullptr;
+    }
+
+    // add to the vector to deallocate the pointers
+    vecList.push_back(newNode);
+}
+
+// Helper fucntion to copy the rest of the tree after copying the root
+// in the main copy contructor
 RBTNode *RedBlackTree::copyNode(RBTNode *child, RBTNode *root)
 {
     RBTNode *newNode = new RBTNode();
@@ -46,35 +92,7 @@ RBTNode *RedBlackTree::copyNode(RBTNode *child, RBTNode *root)
     return newNode;
 }
 
-RedBlackTree::RedBlackTree(const RedBlackTree &rbtree)
-{
-    RBTNode *newNode = new RBTNode();
-
-    newNode->data = rbtree.root->data;
-    newNode->color = rbtree.root->color;
-    newNode->parent = nullptr;
-
-    if (rbtree.root->left != nullptr)
-    {
-        newNode->left = copyNode(rbtree.root->left, newNode);
-    }
-    else
-    {
-        newNode->left = nullptr;
-    }
-
-    if (rbtree.root->right != nullptr)
-    {
-        newNode->right = copyNode(rbtree.root->right, newNode);
-    }
-    else
-    {
-        newNode->right = nullptr;
-    }
-    vecList.push_back(newNode);
-    this->root = newNode;
-}
-
+// Prints the tree in-order
 string RedBlackTree::ToInfixString(RBTNode *root) const
 {
     string str = "";
@@ -90,6 +108,7 @@ string RedBlackTree::ToInfixString(RBTNode *root) const
     return str;
 }
 
+// Prints the tree pre-order
 string RedBlackTree::ToPrefixString(RBTNode *root) const
 {
     string str = "";
@@ -105,6 +124,7 @@ string RedBlackTree::ToPrefixString(RBTNode *root) const
     return str;
 }
 
+// Prints the tree post-order
 string RedBlackTree::ToPostfixString(RBTNode *root) const
 {
     string str = "";
@@ -120,10 +140,18 @@ string RedBlackTree::ToPostfixString(RBTNode *root) const
     return str;
 }
 
+// Returns the node with the smallest data
 int RedBlackTree::GetMin()
 {
+    if (this->root == nullptr)
+    {
+        return 0;
+    }
+
     bool minReached = false;
     RBTNode *currMin = this->root;
+
+    // iterate until the left end is reached
     while (!minReached)
     {
         if (currMin->left != nullptr)
@@ -138,10 +166,19 @@ int RedBlackTree::GetMin()
     return currMin->data;
 }
 
+// Returns the node with the largest data
 int RedBlackTree::GetMax()
 {
+
+    if (this->root == nullptr)
+    {
+        return 0;
+    }
+
     bool minReached = false;
     RBTNode *currMax = this->root;
+
+    // iterate until the right end is reached
     while (!minReached)
     {
         if (currMax->right != nullptr)
@@ -156,14 +193,26 @@ int RedBlackTree::GetMax()
     return currMax->data;
 }
 
+// check if the specific node exists inside the tree
 bool RedBlackTree::Contains(int node)
 {
+    if (this->root == nullptr)
+    {
+        return false;
+    }
+
     bool found = false;
     long long unsigned int currLength = 0;
     RBTNode *currNode = this->root;
 
-    while (!found && (currLength < numItems))
+    // iterate until the node is found or until the whole tree is traversed through
+    while (!found)
     {
+        if (currNode == nullptr)
+        {
+            return found;
+        }
+
         if (currNode->data == node)
         {
             found = true;
@@ -183,15 +232,24 @@ bool RedBlackTree::Contains(int node)
     return found;
 }
 
+// Inserts a new node into the the tree
 void RedBlackTree::Insert(int node)
 {
+    if (this->Contains(node))
+    { 
+        throw invalid_argument("Caught an exception");
+    }
+
+    // declare a new node
     RBTNode *newNode = new RBTNode();
+    // add this node to the list to deallocate it later
     vecList.push_back(newNode);
 
     newNode->data = node;
     RBTNode *currParent = nullptr;
     RBTNode *currRoot = this->root;
 
+    // look for the parent
     while (currRoot != nullptr)
     {
         currParent = currRoot;
@@ -208,6 +266,7 @@ void RedBlackTree::Insert(int node)
 
     newNode->parent = currParent;
 
+    // Insert the node to its proper location
     if (currParent == nullptr)
     {
         newNode->color = COLOR_BLACK;
@@ -231,9 +290,9 @@ void RedBlackTree::Insert(int node)
         }
     }
 
+    // Readjust/Fix the tree after inserting the node
     while (newNode->parent->color == COLOR_RED)
     {
-        // no need to recolor to black
         if (newNode->parent == newNode->parent->parent->left)
         { // if the parent is on the left of its parent
             if (newNode->parent->parent->right == nullptr || newNode->parent->parent->right->color == COLOR_BLACK)
@@ -246,7 +305,6 @@ void RedBlackTree::Insert(int node)
                 }
                 else if (newNode->parent->right == newNode)
                 { // if the newnode is on the right side of its parent
-
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent);
@@ -254,54 +312,51 @@ void RedBlackTree::Insert(int node)
                 }
             }
             else if (newNode->parent->parent->right->color == COLOR_RED)
-            {
+            { // if the uncle is red
                 newNode->parent->parent->color = COLOR_BLACK;
                 newNode->parent->parent->right->color = COLOR_BLACK;
                 newNode->parent->color = COLOR_BLACK;
-                // newNode = newNode->parent->parent;
             }
         }
+
         else if (newNode->parent == newNode->parent->parent->right)
-        {
+        { // if the parent is on the right of its parent
             if (newNode->parent->parent->left == nullptr || newNode->parent->parent->left->color == COLOR_BLACK)
-            {
+            { // if the uncle is black or NULL
                 if (newNode->parent->right == newNode)
-                {
+                { // if the newnode is on the right side of its parent
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
-                    RightRotate(newNode->parent->parent);
+                    LeftRotate(newNode->parent->parent);
                 }
                 else if (newNode->parent->left == newNode)
-                {
+                { // if the newnode is on the left side of its parent
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
-
                     RightRotate(newNode->parent);
                     LeftRotate(newNode->parent);
                 }
             }
             else if (newNode->parent->parent->left->color == COLOR_RED)
-            {
+            { // if the uncle is red
                 newNode->parent->parent->color = COLOR_BLACK;
-                // newNode->parent->parent->right->color = COLOR_BLACK;
                 newNode->parent->color = COLOR_BLACK;
                 newNode->parent->parent->left->color = COLOR_BLACK;
-                // newNode = newNode->parent->parent;
             }
         }
 
-    // vecList.push_back(newNode);
-
-
+        // if the newNode is the root, no need to check if its parent is red
         if (newNode == root)
         {
             break;
         }
 
+        // The root should always be black
         this->root->color = COLOR_BLACK;
     }
 }
 
+//perform right rotate on the passed node
 void RedBlackTree::RightRotate(RBTNode *node)
 { // we are passing the grandparent
 
@@ -334,12 +389,13 @@ void RedBlackTree::RightRotate(RBTNode *node)
     node->parent = currNode;
 }
 
+//perform left rotate on the passed node
 void RedBlackTree::LeftRotate(RBTNode *node)
 { // we are passing the parent
 
     RBTNode *currNode = node->right;
 
-    node->right = nullptr; //
+    node->right = nullptr;   
     if (currNode->left != nullptr)
     {
         node->right = currNode->left;

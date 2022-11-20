@@ -27,10 +27,9 @@ public:
     void Insert(int node);
 
     bool Contains(int node);
-    // while loop check the left and right child, compare the values
 
     int GetMin();
-    // reach the left side of the tree
+
     int GetMax();
 
     int Size;
