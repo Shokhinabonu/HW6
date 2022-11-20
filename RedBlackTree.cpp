@@ -228,6 +228,7 @@ void RedBlackTree::Insert(int node)
             numItems++;
         }
     }
+    vecList.push_back(newNode);
 
     while (newNode->parent->color == COLOR_RED)
     {
@@ -288,7 +289,6 @@ void RedBlackTree::Insert(int node)
             }
         }
 
-        vecList.push_back(newNode);
 
         if (newNode == root)
         {
