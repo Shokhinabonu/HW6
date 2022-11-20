@@ -21,7 +21,7 @@ class RedBlackTree
 {
 public:
     RedBlackTree();
-    RedBlackTree(const RBTNode &root);
+    RedBlackTree(const RedBlackTree &rbtree);
     ~RedBlackTree();
 
     void Insert(int node);

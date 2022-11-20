@@ -23,6 +23,7 @@ RBTNode *RedBlackTree::copyNode(RBTNode *child, RBTNode *root)
     newNode->data = child->data;
     newNode->color = child->color;
     newNode->parent = root;
+
     if (child->left != nullptr)
     {
         newNode->left = copyNode(child->left, newNode);
@@ -41,32 +42,37 @@ RBTNode *RedBlackTree::copyNode(RBTNode *child, RBTNode *root)
         newNode->right = nullptr;
     }
 
+    vecList.push_back(newNode);
     return newNode;
 }
 
-RedBlackTree::RedBlackTree(const RBTNode &root)
+RedBlackTree::RedBlackTree(const RedBlackTree &rbtree)
 {
     RBTNode *newNode = new RBTNode();
-    newNode->data = root.data;
-    newNode->color = root.color;
+
+    newNode->data = rbtree.root->data;
+    newNode->color = rbtree.root->color;
     newNode->parent = nullptr;
-    if (root.left != nullptr)
+
+    if (rbtree.root->left != nullptr)
     {
-        newNode->left = copyNode(root.left, newNode);
+        newNode->left = copyNode(rbtree.root->left, newNode);
     }
     else
     {
         newNode->left = nullptr;
     }
 
-    if (root.right != nullptr)
+    if (rbtree.root->right != nullptr)
     {
-        newNode->right = copyNode(root.right, newNode);
+        newNode->right = copyNode(rbtree.root->right, newNode);
     }
     else
     {
         newNode->right = nullptr;
     }
+    vecList.push_back(newNode);
+    this->root = newNode;
 }
 
 string RedBlackTree::ToInfixString(RBTNode *root) const
@@ -179,14 +185,13 @@ bool RedBlackTree::Contains(int node)
 
 void RedBlackTree::Insert(int node)
 {
-    RBTNode *newNode = new RBTNode(); // delete this one only
+    RBTNode *newNode = new RBTNode();  
     newNode->data = node;
 
     RBTNode *currParent = nullptr;
     RBTNode *currRoot = this->root;
     while (currRoot != nullptr)
-    {
-        // cout << "current int: " << this->root->data << endl;
+    { 
         currParent = currRoot;
         if (currRoot->data > node)
         {
@@ -229,7 +234,7 @@ void RedBlackTree::Insert(int node)
         // no need to recolor to black
         if (newNode->parent == newNode->parent->parent->left)
         { // if the parent is on the left of its parent
-            if (newNode->parent->parent->right == nullptr)
+            if (newNode->parent->parent->right == nullptr || newNode->parent->parent->right->color == COLOR_BLACK)
             { // if the uncle is black or NULL
                 if (newNode->parent->left == newNode)
                 { // if the newnode is on the left side of its parent
@@ -239,6 +244,7 @@ void RedBlackTree::Insert(int node)
                 }
                 else if (newNode->parent->right == newNode)
                 { // if the newnode is on the right side of its parent
+
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent);
@@ -249,13 +255,13 @@ void RedBlackTree::Insert(int node)
             {
                 newNode->parent->parent->color = COLOR_BLACK;
                 newNode->parent->parent->right->color = COLOR_BLACK;
-                newNode->parent->parent->left->color = COLOR_BLACK;
-                newNode = newNode->parent->parent;
+                newNode->parent->color = COLOR_BLACK;
+                // newNode = newNode->parent->parent;
             }
         }
         else if (newNode->parent == newNode->parent->parent->right)
         {
-            if (newNode->parent->parent->left == nullptr)
+            if (newNode->parent->parent->left == nullptr || newNode->parent->parent->left->color == COLOR_BLACK)
             {
                 if (newNode->parent->right == newNode)
                 {
@@ -267,7 +273,7 @@ void RedBlackTree::Insert(int node)
                 {
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
-                    
+
                     RightRotate(newNode->parent);
                     LeftRotate(newNode->parent);
                 }
@@ -275,9 +281,10 @@ void RedBlackTree::Insert(int node)
             else if (newNode->parent->parent->left->color == COLOR_RED)
             {
                 newNode->parent->parent->color = COLOR_BLACK;
-                newNode->parent->parent->right->color = COLOR_BLACK;
+                // newNode->parent->parent->right->color = COLOR_BLACK;
+                newNode->parent->color = COLOR_BLACK;
                 newNode->parent->parent->left->color = COLOR_BLACK;
-                newNode = newNode->parent->parent;
+                // newNode = newNode->parent->parent;
             }
         }
 
