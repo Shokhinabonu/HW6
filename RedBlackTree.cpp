@@ -185,13 +185,15 @@ bool RedBlackTree::Contains(int node)
 
 void RedBlackTree::Insert(int node)
 {
-    RBTNode *newNode = new RBTNode();  
-    newNode->data = node;
+    RBTNode *newNode = new RBTNode();
+    vecList.push_back(newNode);
 
+    newNode->data = node;
     RBTNode *currParent = nullptr;
     RBTNode *currRoot = this->root;
+
     while (currRoot != nullptr)
-    { 
+    {
         currParent = currRoot;
         if (currRoot->data > node)
         {
@@ -228,7 +230,6 @@ void RedBlackTree::Insert(int node)
             numItems++;
         }
     }
-    vecList.push_back(newNode);
 
     while (newNode->parent->color == COLOR_RED)
     {
@@ -288,6 +289,8 @@ void RedBlackTree::Insert(int node)
                 // newNode = newNode->parent->parent;
             }
         }
+
+    // vecList.push_back(newNode);
 
 
         if (newNode == root)
