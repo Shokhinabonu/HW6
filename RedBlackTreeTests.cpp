@@ -255,51 +255,7 @@ void TestToStrings()
 	cout << "PASSED!" << endl
 		 << endl;
 }
-
-// void TestInsertRandomTests()
-// {
-// 	cout << "Testing Random Insert Stuff..." << endl;
-// 	cout << "\t This test passes if it doesn't crash and valgrind reports no issues" << endl;
-// 	RedBlackTree *rbt = new RedBlackTree();
-// 	rbt->Insert(15);
-// 	rbt->Insert(13);
-// 	rbt->Insert(20);
-// 	rbt->Insert(12);
-// 	cout << endl;
-// 	// cout << "tree: " << rbt->ToInfixString() << endl;
-// 	delete rbt;
-
-// 	// probably should have a delete or something here
-// 	rbt = new RedBlackTree();
-// 	// cout << endl << "NEW TREE" << endl;
-// 	rbt->Insert(12);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	rbt->Insert(11);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	rbt->Insert(15);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	rbt->Insert(5);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	rbt->Insert(13);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	rbt->Insert(7);
-// 	// cout << "tree: "  << rbt->ToInfixString() << endl;
-// 	delete rbt;
-
-// 	rbt = new RedBlackTree();
-// 	// cout << endl << "NEW TREE" << endl;
-// 	rbt->Insert(12);
-// 	// cout << "tree: "  << rbt->ToPrefixString() << endl;
-// 	rbt->Insert(10);
-// 	// cout << "tree: "  << rbt->ToPrefixString() << endl;
-// 	rbt->Insert(8);
-// 	// cout << "tree: "  << rbt->ToPrefixString() << endl;
-// 	delete rbt;
-
-// 	cout << "PASSED!" << endl
-// 		 << endl;
-// }
-
+ 
 void TestCopyConstructor()
 {
 	cout << "Testing Copy Constructor..." << endl;
@@ -527,7 +483,6 @@ void BigTreeTest()
 	rbt.Insert(6);
 	rbt.Insert(8);
 	rbt.Insert(37);
-	
 
 	rbt.Insert(5);
 	rbt.Insert(72);
@@ -536,33 +491,30 @@ void BigTreeTest()
 	rbt.Insert(92);
 	rbt.Insert(20);
 	rbt.Insert(13);
-	
 
 	rbt.Insert(57);
 	rbt.Insert(30);
-	
+
 	rbt.Insert(64);
-	
+
 	rbt.Insert(69);
 
-
 	rbt.Insert(50);
-	
-	rbt.Insert(67);
 
+	rbt.Insert(67);
 
 	rbt.Insert(99);
 
-	 rbt.Insert(89);
-		
+	rbt.Insert(89);
+
 	rbt.Insert(33);
-	// cout<<rbt.ToPostfixString(); 
-	assert(rbt.ToPrefixString() == " B12  R7  B3  B1  R0  R2  B5  R4  R6  B10  B9  R8  B11  R55  B20  B13  R37  B30  R33  B50  B69  R64  B57  B67  R90  B72  R89  B92  R99 ");
+ 
+	  assert(rbt.ToPrefixString() == " B12  R7  B3  B1  R0  R2  B5  R4  R6  B10  B9  R8  B11  R55  B20  B13  R37  B30  R33  B50  B69  R64  B57  B67  R90  B72  R89  B92  R99 ");
 
 	cout << "PASSED!" << endl
 		 << endl;
 
-		 //fix it by inserting assert in the middle of the insert 
+	// fix it by inserting assert in the middle of the insert
 }
 
 void TestInsertWithRecursiveFixUp()
@@ -596,7 +548,7 @@ void TestInsertWithRecursiveFixUp()
 
 int main()
 {
-	// TestSimpleConstructor();
+	TestSimpleConstructor();
 
 	TestInsertFirstNode();
 	TestInsertSecondNode();
@@ -604,18 +556,18 @@ int main()
 	TestInsertFourthNode();
 	TestInsertFifthNode();
 
-	// TestToStrings();
-	// TestInsertRandomTests();
-	// TestRandomFailed();
+	TestToStrings();
+	TestInsertRandomTests();
+	TestRandomFailed();
 
-	// TestCopyConstructor();
-	// TestSize();
-	// TestContains();
-	// TestGetMinimumMaximum();
+	TestCopyConstructor();
+	TestSize();
+	TestContains();
+	TestGetMinimumMaximum();
 
-	// TestInsertWithRecursiveFixUp();
+	TestInsertWithRecursiveFixUp();
 	BigTreeTest();
-	// TestInsertRandomTests();
+	TestInsertRandomTests();
 
 	cout << "ALL TESTS PASSED!!" << endl;
 	return 0;

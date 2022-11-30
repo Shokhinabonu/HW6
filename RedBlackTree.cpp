@@ -297,23 +297,15 @@ void RedBlackTree::Insert(int node)
         { // if the parent is on the left of its parent
             if (newNode->parent->parent->right == nullptr || newNode->parent->parent->right->color == COLOR_BLACK)
             { // if the uncle is black or NULL
-                if (newNode->parent->left == newNode)
+                if (newNode->parent->right == newNode)
                 { // if the newnode is on the left side of its parent
-                    newNode->parent->color = COLOR_BLACK;
-                    newNode->parent->parent->color = COLOR_RED;
-                    RightRotate(newNode->parent->parent);
+                    newNode = newNode->parent;
+                    LeftRotate(newNode);
                 }
-                else if (newNode->parent->right == newNode)
-                { // if the newnode is on the right side of its parent
-                    newNode->color = COLOR_BLACK;
-                    newNode->parent->parent->color = COLOR_RED;
-                    LeftRotate(newNode->parent);
-                    RightRotate(newNode->parent);
-                    if (newNode->parent != nullptr)
-                    {
-                        newNode = newNode->parent->parent;
-                    }
-                }
+                newNode->parent->color = COLOR_BLACK;
+                newNode->parent->parent->color = COLOR_RED; 
+                RightRotate(newNode->parent->parent);
+               
             }
             else if (newNode->parent->parent->right->color == COLOR_RED)
             { // if the uncle is red - STEP6
@@ -331,22 +323,17 @@ void RedBlackTree::Insert(int node)
         { // if the parent is on the right of its parent
             if (newNode->parent->parent->left == nullptr || newNode->parent->parent->left->color == COLOR_BLACK)
             { // if the uncle is black or NULL
-                if (newNode->parent->right == newNode)
+                if (newNode->parent->left == newNode)
                 { // if the newnode is on the right side of its parent
-                    newNode->parent->color = COLOR_BLACK;
-                    newNode->parent->parent->color = COLOR_RED;
-                    LeftRotate(newNode->parent->parent);
+                    newNode = newNode->parent;
+                    RightRotate(newNode);
                 }
-                else if (newNode->parent->left == newNode)
-                { // if the newnode is on the left side of its parent
-                    newNode->color = COLOR_BLACK;
-                    newNode->parent->parent->color = COLOR_RED;
-                    RightRotate(newNode->parent);
-                    LeftRotate(newNode->parent);
-                }
+                newNode->parent->parent->color = COLOR_RED;
+                newNode->parent->color = COLOR_BLACK;
+                LeftRotate(newNode->parent->parent);
             }
             else if (newNode->parent->parent->left->color == COLOR_RED)
-            { // if the uncle is red 
+            { // if the uncle is red
                 newNode->parent->color = COLOR_BLACK;
                 newNode->parent->parent->left->color = COLOR_BLACK;
                 if (newNode->parent->parent != this->root)
@@ -355,12 +342,12 @@ void RedBlackTree::Insert(int node)
                 }
                 newNode = newNode->parent->parent;
             }
-        } 
+        }
         // if the newNode is the root, no need to check if its parent is red
         if (newNode == root)
         {
             break;
-        } 
+        }
         // The root should always be black
         this->root->color = COLOR_BLACK;
     }
