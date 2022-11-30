@@ -293,7 +293,6 @@ void RedBlackTree::Insert(int node)
     // Readjust/Fix the tree after inserting the node
     while (newNode->parent->color == COLOR_RED)
     {
-
         if (newNode->parent == newNode->parent->parent->left)
         { // if the parent is on the left of its parent
             if (newNode->parent->parent->right == nullptr || newNode->parent->parent->right->color == COLOR_BLACK)
@@ -303,24 +302,17 @@ void RedBlackTree::Insert(int node)
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     RightRotate(newNode->parent->parent);
-                    cout << "pp" << endl;
                 }
                 else if (newNode->parent->right == newNode)
                 { // if the newnode is on the right side of its parent
-
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent);
-                    cout << "kk" << endl
-                         << ToPostfixString() << endl;
                     RightRotate(newNode->parent);
-                    cout << "kk" << endl
-                         << ToPostfixString() << endl;
-                         if(newNode->parent!=nullptr){
-newNode = newNode->parent->parent;
-                         }
-                    
-                    // cout << "current new node: " << newNode->data << endl;
+                    if (newNode->parent != nullptr)
+                    {
+                        newNode = newNode->parent->parent;
+                    }
                 }
             }
             else if (newNode->parent->parent->right->color == COLOR_RED)
@@ -332,7 +324,6 @@ newNode = newNode->parent->parent;
                     newNode->parent->parent->color = COLOR_RED;
                 }
                 newNode = newNode->parent->parent;
-                cout << "FF" << endl;
             }
         }
 
@@ -345,12 +336,6 @@ newNode = newNode->parent->parent;
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent->parent);
-                    // newNode = newNode->parent;
-                    // if (node == 89)
-                    // {
-                    //     cout << "LEFT ROTATE ON: " << newNode->parent->parent << endl
-                    //          << ToPostfixString() << endl;
-                    // }
                 }
                 else if (newNode->parent->left == newNode)
                 { // if the newnode is on the left side of its parent
@@ -358,38 +343,24 @@ newNode = newNode->parent->parent;
                     newNode->parent->parent->color = COLOR_RED;
                     RightRotate(newNode->parent);
                     LeftRotate(newNode->parent);
-
-//                       if(newNode->parent->parent->parent!=nullptr){
- //newNode = newNode->parent->parent;
-//                       }
-                   
                 }
             }
             else if (newNode->parent->parent->left->color == COLOR_RED)
-            { // if the uncle is red
-
+            { // if the uncle is red 
                 newNode->parent->color = COLOR_BLACK;
                 newNode->parent->parent->left->color = COLOR_BLACK;
                 if (newNode->parent->parent != this->root)
                 {
                     newNode->parent->parent->color = COLOR_RED;
                 }
-
                 newNode = newNode->parent->parent;
-                // cout << "current new node: " << newNode->data << endl;
-                if (node == 89)
-                {
-                    cout << "UNCLE IS RED: " << ToPostfixString() << endl;
-                }
             }
-        }
-
+        } 
         // if the newNode is the root, no need to check if its parent is red
-        if (newNode == root||newNode->parent==nullptr)
+        if (newNode == root)
         {
             break;
-        }
-
+        } 
         // The root should always be black
         this->root->color = COLOR_BLACK;
     }

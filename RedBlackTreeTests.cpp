@@ -556,7 +556,7 @@ void BigTreeTest()
 	 rbt.Insert(89);
 		
 	rbt.Insert(33);
-	cout<<rbt.ToPostfixString(); 
+	// cout<<rbt.ToPostfixString(); 
 	assert(rbt.ToPrefixString() == " B12  R7  B3  B1  R0  R2  B5  R4  R6  B10  B9  R8  B11  R55  B20  B13  R37  B30  R33  B50  B69  R64  B57  B67  R90  B72  R89  B92  R99 ");
 
 	cout << "PASSED!" << endl
