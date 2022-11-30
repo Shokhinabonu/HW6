@@ -32,7 +32,7 @@ public:
 
     int GetMax();
 
-    int Size;
+    int Size();
 
     string ToInfixString() const { return ToInfixString(this->root); };
     string ToPrefixString() const { return ToPrefixString(this->root); };

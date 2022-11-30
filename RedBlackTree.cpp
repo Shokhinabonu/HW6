@@ -236,7 +236,7 @@ bool RedBlackTree::Contains(int node)
 void RedBlackTree::Insert(int node)
 {
     if (this->Contains(node))
-    { 
+    {
         throw invalid_argument("Caught an exception");
     }
 
@@ -293,6 +293,7 @@ void RedBlackTree::Insert(int node)
     // Readjust/Fix the tree after inserting the node
     while (newNode->parent->color == COLOR_RED)
     {
+
         if (newNode->parent == newNode->parent->parent->left)
         { // if the parent is on the left of its parent
             if (newNode->parent->parent->right == nullptr || newNode->parent->parent->right->color == COLOR_BLACK)
@@ -302,20 +303,33 @@ void RedBlackTree::Insert(int node)
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     RightRotate(newNode->parent->parent);
+                    cout << "pp" << endl;
                 }
                 else if (newNode->parent->right == newNode)
                 { // if the newnode is on the right side of its parent
+
                     newNode->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent);
+                    cout << "kk" << endl
+                         << ToPostfixString() << endl;
                     RightRotate(newNode->parent);
+                    cout << "kk" << endl
+                         << ToPostfixString() << endl;
+                    newNode = newNode->parent->parent;
+                    // cout << "current new node: " << newNode->data << endl;
                 }
             }
             else if (newNode->parent->parent->right->color == COLOR_RED)
-            { // if the uncle is red
-                newNode->parent->parent->color = COLOR_BLACK;
+            { // if the uncle is red - STEP6
                 newNode->parent->parent->right->color = COLOR_BLACK;
                 newNode->parent->color = COLOR_BLACK;
+                if (newNode->parent->parent != this->root)
+                {
+                    newNode->parent->parent->color = COLOR_RED;
+                }
+                newNode = newNode->parent->parent;
+                cout << "FF" << endl;
             }
         }
 
@@ -328,6 +342,12 @@ void RedBlackTree::Insert(int node)
                     newNode->parent->color = COLOR_BLACK;
                     newNode->parent->parent->color = COLOR_RED;
                     LeftRotate(newNode->parent->parent);
+                    // newNode = newNode->parent;
+                    // if (node == 89)
+                    // {
+                    //     cout << "LEFT ROTATE ON: " << newNode->parent->parent << endl
+                    //          << ToPostfixString() << endl;
+                    // }
                 }
                 else if (newNode->parent->left == newNode)
                 { // if the newnode is on the left side of its parent
@@ -335,13 +355,29 @@ void RedBlackTree::Insert(int node)
                     newNode->parent->parent->color = COLOR_RED;
                     RightRotate(newNode->parent);
                     LeftRotate(newNode->parent);
+
+//                       if(newNode->parent->parent->parent!=nullptr){
+//  newNode = newNode->parent->parent;
+//                       }
+                   
                 }
             }
             else if (newNode->parent->parent->left->color == COLOR_RED)
             { // if the uncle is red
-                newNode->parent->parent->color = COLOR_BLACK;
+
                 newNode->parent->color = COLOR_BLACK;
                 newNode->parent->parent->left->color = COLOR_BLACK;
+                if (newNode->parent->parent != this->root)
+                {
+                    newNode->parent->parent->color = COLOR_RED;
+                }
+
+                newNode = newNode->parent->parent;
+                // cout << "current new node: " << newNode->data << endl;
+                if (node == 89)
+                {
+                    cout << "UNCLE IS RED: " << ToPostfixString() << endl;
+                }
             }
         }
 
@@ -356,7 +392,7 @@ void RedBlackTree::Insert(int node)
     }
 }
 
-//perform right rotate on the passed node
+// perform right rotate on the passed node
 void RedBlackTree::RightRotate(RBTNode *node)
 { // we are passing the grandparent
 
@@ -389,13 +425,19 @@ void RedBlackTree::RightRotate(RBTNode *node)
     node->parent = currNode;
 }
 
-//perform left rotate on the passed node
+// returns the size of the tree(its nodes)
+int RedBlackTree::Size()
+{
+    return numItems;
+}
+
+// perform left rotate on the passed node
 void RedBlackTree::LeftRotate(RBTNode *node)
 { // we are passing the parent
 
     RBTNode *currNode = node->right;
 
-    node->right = nullptr;   
+    node->right = nullptr;
     if (currNode->left != nullptr)
     {
         node->right = currNode->left;
