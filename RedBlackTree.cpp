@@ -316,7 +316,10 @@ void RedBlackTree::Insert(int node)
                     RightRotate(newNode->parent);
                     cout << "kk" << endl
                          << ToPostfixString() << endl;
-                    newNode = newNode->parent->parent;
+                         if(newNode->parent!=nullptr){
+newNode = newNode->parent->parent;
+                         }
+                    
                     // cout << "current new node: " << newNode->data << endl;
                 }
             }
@@ -357,7 +360,7 @@ void RedBlackTree::Insert(int node)
                     LeftRotate(newNode->parent);
 
 //                       if(newNode->parent->parent->parent!=nullptr){
-//  newNode = newNode->parent->parent;
+ //newNode = newNode->parent->parent;
 //                       }
                    
                 }
@@ -382,7 +385,7 @@ void RedBlackTree::Insert(int node)
         }
 
         // if the newNode is the root, no need to check if its parent is red
-        if (newNode == root)
+        if (newNode == root||newNode->parent==nullptr)
         {
             break;
         }

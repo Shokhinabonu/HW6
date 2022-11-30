@@ -598,11 +598,11 @@ int main()
 {
 	// TestSimpleConstructor();
 
-	// TestInsertFirstNode();
-	// TestInsertSecondNode();
-	// TestInsertThirdNode();
-	// TestInsertFourthNode();
-	// TestInsertFifthNode();
+	TestInsertFirstNode();
+	TestInsertSecondNode();
+	TestInsertThirdNode();
+	TestInsertFourthNode();
+	TestInsertFifthNode();
 
 	// TestToStrings();
 	// TestInsertRandomTests();
