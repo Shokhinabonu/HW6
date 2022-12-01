@@ -204,6 +204,8 @@ bool RedBlackTree::Contains(int node)
     bool found = false;
     long long unsigned int currLength = 0;
     RBTNode *currNode = this->root;
+    cout<<"ROOT"<<root->data;
+    cout<<"ROOT"<<root->right->data;
 
     // iterate until the node is found or until the whole tree is traversed through
     while (!found)
@@ -366,12 +368,12 @@ void RedBlackTree::Insert(int node)
 
 void RedBlackTree::Remove(int data)
 {
-    cout << data << endl;
-    cout << ToInfixString();
-    // if (!this->Contains(data))
-    // {
-    //     throw invalid_argument("Caught an exception");
-    // }
+    // cout << data << endl;
+    // cout << ToInfixString();
+    if (!this->Contains(data))
+    {
+        throw invalid_argument("Caught an exception");
+    }
 
     RBTNode *currNode;
     bool found = false;
@@ -476,8 +478,9 @@ void RedBlackTree::Remove(int data)
         currNode->data = inOrderSucc->data;
         inOrderSucc->data = temp;
 
-        // cout << temp << endl;
-        // cout << ToInfixString() << endl;
+          cout << temp << endl;
+          cout << currNode->data << endl;
+          cout << ToInfixString() << endl;
         Remove(temp);
  
       
