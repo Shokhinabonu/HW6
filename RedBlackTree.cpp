@@ -467,11 +467,12 @@ void RedBlackTree::Remove(int data)
         while (inOrderSucc->left != nullptr)
         {
             inOrderSucc = inOrderSucc->left;
-        }
-
+        } 
+        int temp= currNode->data ;
         currNode->data = inOrderSucc->data;
-
-        Remove(inOrderSucc->data);
+        inOrderSucc->data=temp;
+cout<<inOrderSucc->data;
+        this->Remove(temp);
 
         // if (inOrderSucc == inOrderSucc->parent->left)
         // {
