@@ -1,5 +1,5 @@
 all: 
-	g++ -Wall -g RedBlackTree.cpp RedBlackTreeTests.cpp -std=c++14 -o rbt
+	g++ -Wall -g RedBlackTree.cpp RedBlackTreeTests2.cpp -std=c++14 -o rbt
 run: 
 	./rbt
  

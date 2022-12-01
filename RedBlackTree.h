@@ -25,6 +25,7 @@ public:
     ~RedBlackTree();
 
     void Insert(int node);
+    void Remove(int data);
 
     bool Contains(int node);
 
