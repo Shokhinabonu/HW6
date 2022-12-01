@@ -6,85 +6,95 @@
 
 using namespace std;
 
-void TestSimpleConstructor(){
+void TestSimpleConstructor()
+{
 	cout << "Testing Simple Constructor... " << endl;
 	RedBlackTree rbt = RedBlackTree();
-	//cout << "empty r-b-tree: " << rbt->ToInfixString() << endl;
+	// cout << "empty r-b-tree: " << rbt->ToInfixString() << endl;
 	assert(rbt.ToInfixString() == "");
-	
-	cout << "PASSED!"<< endl << endl;
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-
-void TestInsertFirstNode(){
+void TestInsertFirstNode()
+{
 	cout << "Testing Insert One Node..." << endl;
 	RedBlackTree rbt = RedBlackTree();
 	rbt.Insert(30);
-	//cout << "rbt: " << rbt->ToPrefixString() << endl;
+	// cout << "rbt: " << rbt->ToPrefixString() << endl;
 	assert(rbt.ToPrefixString() == " B30 ");
 
-	cout << "PASSED!" << endl << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-
-void TestInsertSecondNode(){
+void TestInsertSecondNode()
+{
 	cout << "Testing Insert Second Node..." << endl;
 	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(30); // leak here
 	rbt->Insert(15);
 	assert(rbt->ToPrefixString() == " B30  R15 ");
 	delete rbt;
-	
+
 	rbt = new RedBlackTree();
 	rbt->Insert(30);
 	rbt->Insert(45);
-	assert(rbt->ToPrefixString() == " B30  R45 ");	
+	assert(rbt->ToPrefixString() == " B30  R45 ");
 	delete rbt;
 
-	cout << "PASSED!" << endl << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-
-void TestInsertThirdNode(){
+void TestInsertThirdNode()
+{
 	cout << "Testing Insert Third Node..." << endl;
 	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(30);
 	rbt->Insert(15);
 	rbt->Insert(10); // Left Left
-	//cout << "rbt: "  << rbt->ToPrefixString() << endl;
+	// cout << "rbt: "  << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B15  R10  R30 ");
 	delete rbt;
-	
-	rbt = new RedBlackTree(); 
+
+	rbt = new RedBlackTree();
 	rbt->Insert(30);
 	rbt->Insert(15);
 	rbt->Insert(25); // Right Left
 	assert(rbt->ToPrefixString() == " B25  R15  R30 ");
 	delete rbt;
-	
+
 	rbt = new RedBlackTree();
 	rbt->Insert(30);
 	rbt->Insert(15);
 	rbt->Insert(45); // Easy case
 	assert(rbt->ToPrefixString() == " B30  R15  R45 ");
 	delete rbt;
-	
+
 	// more tests go here
 	// consider some symmetry!
-	
-	cout << "TESTS MISSING" << endl << endl;
-	cout << "PASSED!" << endl << endl;
+
+	cout << "TESTS MISSING" << endl
+		 << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestInsertFourthNode(){
+void TestInsertFourthNode()
+{
 	cout << "Testing Insert Fourth Node..." << endl;
 
-	cout << "TESTS MISSING" << endl << endl;
-	
-	cout << "PASSED!" << endl << endl;
+	cout << "TESTS MISSING" << endl
+		 << endl;
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestInsertFifthNode(){
+void TestInsertFifthNode()
+{
 	cout << "Testing Insert Fifth Node..." << endl;
 	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(30);
@@ -92,37 +102,38 @@ void TestInsertFifthNode(){
 	rbt->Insert(45);
 	rbt->Insert(10);
 	rbt->Insert(25);
-	//cout << "result: "  << rbt->ToPrefixString() << endl;
+	// cout << "result: "  << rbt->ToPrefixString() << endl;
 	assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
 	delete rbt;
-	
-	cout << "TESTS MISSING" << endl << endl;
-	
-	cout << "PASSED!" << endl << endl;
+
+	cout << "TESTS MISSING" << endl
+		 << endl;
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-
-void TestRemove(){
+void TestRemove()
+{
 	cout << "Testing Remove Node..." << endl;
-	RedBlackTree *rbt = new RedBlackTree(); 
+	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(15);
 	rbt->Insert(10);
-	rbt->Insert(5); 
 	rbt->Insert(1);
-	
-cout<<"before: "<<rbt->ToInfixString()<<endl;
-	rbt->Remove(1);
-	 cout<<"after: "<<rbt->ToInfixString();
-	//assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
+	rbt->Insert(20);
+
+	cout << "before: " << rbt->ToInfixString() << endl;
+	rbt->Remove(10);
+	cout << "after: " << rbt->ToInfixString();
+	// assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
 	delete rbt;
-	 
-	
-	cout << "PASSED!" << endl << endl;
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-
-
-void TestToStrings(){
+void TestToStrings()
+{
 	cout << "Testing ToString Methods..." << endl;
 
 	RedBlackTree rbt = RedBlackTree();
@@ -137,10 +148,12 @@ void TestToStrings(){
 	assert(rbt.ToInfixString() == " R5  B7  R11  B12  R13  B15 ");
 	assert(rbt.ToPostfixString() == " R5  R11  B7  R13  B15  B12 ");
 
-	cout << "PASSED!" << endl << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestInsertRandomTests(){
+void TestInsertRandomTests()
+{
 	cout << "Testing Random Insert Stuff..." << endl;
 	cout << "\t This test passes if it doesn't crash and valgrind reports no issues" << endl;
 	RedBlackTree *rbt = new RedBlackTree();
@@ -149,42 +162,42 @@ void TestInsertRandomTests(){
 	rbt->Insert(20);
 	rbt->Insert(12);
 	cout << endl;
-	//cout << "tree: " << rbt->ToInfixString() << endl;
+	// cout << "tree: " << rbt->ToInfixString() << endl;
 	delete rbt;
-	
-	
+
 	// probably should have a delete or something here
 	rbt = new RedBlackTree();
-	//cout << endl << "NEW TREE" << endl;
+	// cout << endl << "NEW TREE" << endl;
 	rbt->Insert(12);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	rbt->Insert(11);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	rbt->Insert(15);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	rbt->Insert(5);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	rbt->Insert(13);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	rbt->Insert(7);
-	//cout << "tree: "  << rbt->ToInfixString() << endl;
+	// cout << "tree: "  << rbt->ToInfixString() << endl;
 	delete rbt;
-	
-	
+
 	rbt = new RedBlackTree();
-	//cout << endl << "NEW TREE" << endl;
+	// cout << endl << "NEW TREE" << endl;
 	rbt->Insert(12);
-	//cout << "tree: "  << rbt->ToPrefixString() << endl;
+	// cout << "tree: "  << rbt->ToPrefixString() << endl;
 	rbt->Insert(10);
-	//cout << "tree: "  << rbt->ToPrefixString() << endl;
+	// cout << "tree: "  << rbt->ToPrefixString() << endl;
 	rbt->Insert(8);
-	//cout << "tree: "  << rbt->ToPrefixString() << endl;
+	// cout << "tree: "  << rbt->ToPrefixString() << endl;
 	delete rbt;
-	
-	cout << "PASSED!" << endl << endl;
+
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestCopyConstructor(){
+void TestCopyConstructor()
+{
 	cout << "Testing Copy Constructor..." << endl;
 
 	RedBlackTree rbt1 = RedBlackTree();
@@ -204,10 +217,12 @@ void TestCopyConstructor(){
 	rbt1.Insert(200);
 	assert(rbt2.ToPrefixString() != rbt1.ToPrefixString());
 
-	cout << "PASSED!" << endl << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestContains(){
+void TestContains()
+{
 	cout << "Testing Contains..." << endl;
 	RedBlackTree *rbt = new RedBlackTree();
 	rbt->Insert(40);
@@ -219,30 +234,32 @@ void TestContains(){
 	rbt->Insert(17);
 	rbt->Insert(29);
 	rbt->Insert(34);
-	
+
 	assert(rbt->Contains(34));
 	delete rbt;
 
-	
-	cout << "TESTS MISSING" << endl << endl;
-	cout << "PASSED!" << endl << endl;
+	cout << "TESTS MISSING" << endl
+		 << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
-void TestGetMinimumMaximum(){
+void TestGetMinimumMaximum()
+{
 	cout << "Testing Get Minimum and Get Maximum..." << endl;
 
-	cout << "TESTS MISSING" << endl << endl;
+	cout << "TESTS MISSING" << endl
+		 << endl;
 
-	cout << "PASSED!" << endl << endl;
+	cout << "PASSED!" << endl
+		 << endl;
 }
 
+int main()
+{
 
-
-int main(){
-
-	
 	// TestSimpleConstructor();
-	
+
 	// TestInsertFirstNode();
 	// TestInsertSecondNode();
 	// TestInsertThirdNode();
@@ -259,7 +276,6 @@ int main(){
 
 	TestRemove();
 
-	
 	cout << "ALL TESTS PASSED!!" << endl;
 	return 0;
 }

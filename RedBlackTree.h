@@ -15,6 +15,7 @@ struct RBTNode
     RBTNode *parent = nullptr;
     RBTNode *left = nullptr;
     RBTNode *right = nullptr;
+    bool isNullNode=false;
 };
 
 class RedBlackTree
