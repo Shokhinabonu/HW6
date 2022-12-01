@@ -366,6 +366,8 @@ void RedBlackTree::Insert(int node)
 
 void RedBlackTree::Remove(int data)
 {
+    cout << data << endl;
+    cout << ToInfixString();
     if (!this->Contains(data))
     {
         throw invalid_argument("Caught an exception");
@@ -435,6 +437,8 @@ void RedBlackTree::Remove(int data)
             }
         }
         delete currNode;
+
+        cout << "jjj";
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
     {
@@ -468,10 +472,13 @@ void RedBlackTree::Remove(int data)
         {
             inOrderSucc = inOrderSucc->left;
         }
-
+        int temp = currNode->data;
         currNode->data = inOrderSucc->data;
+        inOrderSucc->data = temp;
 
-        Remove(inOrderSucc->data);
+        // cout << temp << endl;
+        // cout << ToInfixString() << endl;
+        Remove(temp);
 
         // if (inOrderSucc == inOrderSucc->parent->left)
         // {
@@ -491,8 +498,6 @@ void RedBlackTree::Remove(int data)
         //     }
         // }
         // delete inOrderSucc;
-
-        cout << "HERE";
     }
 }
 
