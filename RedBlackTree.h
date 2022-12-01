@@ -27,6 +27,8 @@ public:
 
     void Insert(int node);
     void Remove(int data);
+    void DeleteNode(RBTNode * node);
+    void ReplaceNode(RBTNode *PNode, RBTNode *CNode);
 
     bool Contains(int node);
 

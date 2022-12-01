@@ -204,8 +204,6 @@ bool RedBlackTree::Contains(int node)
     bool found = false;
     long long unsigned int currLength = 0;
     RBTNode *currNode = this->root;
-    cout<<"ROOT"<<root->data;
-    cout<<"ROOT"<<root->right->data;
 
     // iterate until the node is found or until the whole tree is traversed through
     while (!found)
@@ -366,10 +364,33 @@ void RedBlackTree::Insert(int node)
     }
 }
 
+void RedBlackTree::DeleteNode(RBTNode *node)
+{
+    for (size_t i = 0; i < this->vecList.size(); i++)
+    {
+        if (vecList.at(i) == node)
+        {
+            vecList.erase(vecList.begin() + i);
+        }
+    }
+    delete node;
+}
+
+void ReplaceNode(RBTNode *PNode, RBTNode *CNode)
+{
+    if (PNode == PNode->parent->left)
+    {
+        PNode->parent->left = CNode;
+    }
+
+    if (PNode == PNode->parent->right)
+    {
+        PNode->parent->right = CNode;
+    }
+}
+
 void RedBlackTree::Remove(int data)
 {
-    // cout << data << endl;
-    // cout << ToInfixString();
     if (!this->Contains(data))
     {
         throw invalid_argument("Caught an exception");
@@ -399,109 +420,56 @@ void RedBlackTree::Remove(int data)
 
     if (currNode->right == nullptr && currNode->left != nullptr)
     {
-        if (currNode == currNode->parent->left)
-        {
-            currNode->parent->left = currNode->left;
-        }
-
-        if (currNode == currNode->parent->right)
-        {
-            currNode->parent->right = currNode->left;
-        }
+        ReplaceNode(currNode, currNode->left);
         currNode->left->parent = currNode->parent;
 
-        for (size_t i = 0; i < vecList.size(); i++)
-        {
-            if (vecList.at(i) == currNode)
-            {
-                vecList.erase(vecList.begin() + i);
-            }
-        }
-        delete currNode;
+        DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right != nullptr)
     {
-        if (currNode == currNode->parent->left)
-        {
-            currNode->parent->left = currNode->right;
-        }
 
-        if (currNode == currNode->parent->right)
-        {
-            currNode->parent->right = currNode->right;
-        }
+        ReplaceNode(currNode, currNode->right);
         currNode->right->parent = currNode->parent;
-        for (size_t i = 0; i < vecList.size(); i++)
-        {
-            if (vecList.at(i) == currNode)
-            {
-                vecList.erase(vecList.begin() + i);
-            }
-        }
-        delete currNode;
-
-        cout << "jjj";
+        DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
     {
         RBTNode *newNullNode = new RBTNode();
         newNullNode->isNullNode = true;
-        if (currNode == currNode->parent->left)
-        {
-            currNode->parent->left = newNullNode;
-        }
 
-        if (currNode == currNode->parent->right)
-        {
-            currNode->parent->right = newNullNode;
-        }
-
+        ReplaceNode(currNode, newNullNode);
         vecList.push_back(newNullNode);
 
-        for (size_t i = 0; i < vecList.size(); i++)
-        {
-            if (vecList.at(i) == currNode)
-            {
-                vecList.erase(vecList.begin() + i);
-            }
-        }
-        delete currNode;
+        DeleteNode(currNode);
     }
     else if (currNode->left != nullptr && currNode->right != nullptr)
     {
+        int temp;
         RBTNode *inOrderSucc = currNode->right;
+
         while (inOrderSucc->left != nullptr)
         {
-            inOrderSucc = inOrderSucc->left; 
+            inOrderSucc = inOrderSucc->left;
         }
-        int temp = currNode->data;
-        currNode->data = inOrderSucc->data;
-        inOrderSucc->data = temp;
+        temp = inOrderSucc->data;
 
-          cout << temp << endl;
-          cout << currNode->data << endl;
-          cout << ToInfixString() << endl;
-        Remove(temp);
- 
-      
-        // if (inOrderSucc == inOrderSucc->parent->left)
-        // {
-        //     inOrderSucc->parent->left = newNullNode;
-        // }
+        if (inOrderSucc->right != nullptr)
+        {
+            ReplaceNode(inOrderSucc, inOrderSucc->right);
+            inOrderSucc->right->parent = inOrderSucc->parent;
+            currNode->data = temp;
+            DeleteNode(currNode);
+        }
+        else if (inOrderSucc->right == nullptr)
+        {
+            RBTNode *newNullNode = new RBTNode();
+            newNullNode->isNullNode = true;
 
-        // if (inOrderSucc == inOrderSucc->parent->right)
-        // {
-        //     currNode->parent->right = newNullNode;
-        // }
-
-        // for (size_t i = 0; i < vecList.size(); i++)
-        // {
-        //     if (vecList.at(i) == inOrderSucc)
-        //     {
-        //         vecList.erase(vecList.begin() + i);
-        //     }
-        // }
-        // delete inOrderSucc;
+            ReplaceNode(inOrderSucc, newNullNode);
+            vecList.push_back(newNullNode);
+            currNode->data = temp;
+            DeleteNode(currNode);
+        }
     }
 }
 

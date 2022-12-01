@@ -120,8 +120,9 @@ void TestRemove()
 	rbt->Insert(15);
 	rbt->Insert(10);
 	rbt->Insert(1);
-	rbt->Insert(20);
-	rbt->Insert(14);
+	rbt->Insert(20); 
+	rbt->Insert(19); 
+	rbt->Insert(16); 
 	cout << "before: " << rbt->ToInfixString() << endl;
 	rbt->Remove(10);
 	cout << "after: " << rbt->ToInfixString();
