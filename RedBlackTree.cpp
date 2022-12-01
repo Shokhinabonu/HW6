@@ -470,7 +470,7 @@ void RedBlackTree::Remove(int data)
         RBTNode *inOrderSucc = currNode->right;
         while (inOrderSucc->left != nullptr)
         {
-            inOrderSucc = inOrderSucc->left;
+            inOrderSucc = inOrderSucc->left; 
         }
         int temp = currNode->data;
         currNode->data = inOrderSucc->data;
@@ -479,7 +479,8 @@ void RedBlackTree::Remove(int data)
         // cout << temp << endl;
         // cout << ToInfixString() << endl;
         Remove(temp);
-
+ 
+      
         // if (inOrderSucc == inOrderSucc->parent->left)
         // {
         //     inOrderSucc->parent->left = newNullNode;
