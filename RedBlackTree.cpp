@@ -368,10 +368,10 @@ void RedBlackTree::Remove(int data)
 {
     cout << data << endl;
     cout << ToInfixString();
-    if (!this->Contains(data))
-    {
-        throw invalid_argument("Caught an exception");
-    }
+    // if (!this->Contains(data))
+    // {
+    //     throw invalid_argument("Caught an exception");
+    // }
 
     RBTNode *currNode;
     bool found = false;
