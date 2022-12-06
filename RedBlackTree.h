@@ -5,17 +5,17 @@
 
 #define COLOR_RED 1
 #define COLOR_BLACK 0
+#define COLOR_DOUBLEBLACK 2
 
 using namespace std;
 
 struct RBTNode
 {
     int data;
-    unsigned short int color;
+    unsigned short int color;//change back to nothing
     RBTNode *parent = nullptr;
     RBTNode *left = nullptr;
-    RBTNode *right = nullptr;
-    bool isNullNode=false;
+    RBTNode *right = nullptr;  
 };
 
 class RedBlackTree
@@ -27,8 +27,6 @@ public:
 
     void Insert(int node);
     void Remove(int data);
-    void DeleteNode(RBTNode * node);
-    void ReplaceNode(RBTNode *PNode, RBTNode *CNode);
 
     bool Contains(int node);
 
@@ -46,6 +44,7 @@ private:
     RBTNode *root = nullptr;
     unsigned long long int numItems = 0;
     vector<RBTNode *> vecList;
+    int currData;
 
     string ToInfixString(RBTNode *root) const;
     string ToPrefixString(RBTNode *root) const;
@@ -55,4 +54,9 @@ private:
     void LeftRotate(RBTNode *node);
 
     RBTNode *copyNode(RBTNode *child, RBTNode *root);
+
+    void DeleteNode(RBTNode *node);
+    void ReplaceNode(RBTNode *PNode, RBTNode *CNode);
+
+    void FixDoubleBlack(RBTNode *doubleBlNode);
 };

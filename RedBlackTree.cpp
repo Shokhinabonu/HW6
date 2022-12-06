@@ -1,7 +1,7 @@
 #include "RedBlackTree.h"
 #include <iostream>
 #include <cassert>
-
+#include <string>
 using namespace std;
 
 // The constructor
@@ -376,7 +376,7 @@ void RedBlackTree::DeleteNode(RBTNode *node)
     delete node;
 }
 
-void ReplaceNode(RBTNode *PNode, RBTNode *CNode)
+void RedBlackTree::ReplaceNode(RBTNode *PNode, RBTNode *CNode)
 {
     if (PNode == PNode->parent->left)
     {
@@ -387,6 +387,7 @@ void ReplaceNode(RBTNode *PNode, RBTNode *CNode)
     {
         PNode->parent->right = CNode;
     }
+    CNode->parent = PNode->parent;
 }
 
 void RedBlackTree::Remove(int data)
@@ -397,8 +398,11 @@ void RedBlackTree::Remove(int data)
     }
 
     RBTNode *currNode;
+    int currNodeColor;
+    RBTNode *replaceNode = nullptr;
     bool found = false;
     RBTNode *node = this->root;
+    RBTNode *inOrderSucc;
 
     while (!found)
     {
@@ -418,11 +422,13 @@ void RedBlackTree::Remove(int data)
         }
     }
 
+    currNodeColor = currNode->color;
+
     if (currNode->right == nullptr && currNode->left != nullptr)
     {
-        ReplaceNode(currNode, currNode->left);
+        this->ReplaceNode(currNode, currNode->left);
         currNode->left->parent = currNode->parent;
-
+        replaceNode = currNode->left;
         DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right != nullptr)
@@ -430,48 +436,188 @@ void RedBlackTree::Remove(int data)
 
         ReplaceNode(currNode, currNode->right);
         currNode->right->parent = currNode->parent;
+        replaceNode = currNode->right;
         DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
     {
         RBTNode *newNullNode = new RBTNode();
-        newNullNode->isNullNode = true;
+        newNullNode->color = COLOR_DOUBLEBLACK;
 
         ReplaceNode(currNode, newNullNode);
         vecList.push_back(newNullNode);
-
+        replaceNode = newNullNode;
         DeleteNode(currNode);
+        cout<<"AAAA";
     }
     else if (currNode->left != nullptr && currNode->right != nullptr)
     {
-        int temp;
-        RBTNode *inOrderSucc = currNode->right;
+        inOrderSucc = currNode->right;
 
         while (inOrderSucc->left != nullptr)
         {
             inOrderSucc = inOrderSucc->left;
         }
-        temp = inOrderSucc->data;
+        // currNodeColor = inOrderSucc->color;
+        currData = inOrderSucc->data;
+        replaceNode = inOrderSucc;
+        // if (inOrderSucc->right != nullptr)
+        // {
+        //     replaceNode = inOrderSucc->right;
+        // }
 
-        if (inOrderSucc->right != nullptr)
-        {
-            ReplaceNode(inOrderSucc, inOrderSucc->right);
-            inOrderSucc->right->parent = inOrderSucc->parent;
-            currNode->data = temp;
-            DeleteNode(currNode);
-        }
-        else if (inOrderSucc->right == nullptr)
-        {
-            RBTNode *newNullNode = new RBTNode();
-            newNullNode->isNullNode = true;
+        // cout << "replaceNode " << replaceNode->data << endl;
+        Remove(currData);
+        currNode->data = currData;
+    }
 
-            ReplaceNode(inOrderSucc, newNullNode);
-            vecList.push_back(newNullNode);
-            currNode->data = temp;
-            DeleteNode(currNode);
-        }
+    // cout << "currNode " << replaceNode->parent->data << endl;
+
+    if (replaceNode == this->root || currNodeColor == 1 || replaceNode->color == 1) // done
+    {
+        //  cout << "HEY";
+        replaceNode->color = 0;
+        replaceNode = nullptr;
+    }
+    else if ((replaceNode->color == COLOR_BLACK ||
+              replaceNode->color == COLOR_DOUBLEBLACK) &&
+             (currNodeColor == COLOR_BLACK))
+    {
+        replaceNode->color = COLOR_DOUBLEBLACK;
+        cout << "alppp";
+        // FixDoubleBlack(replaceNode);
     }
 }
+
+void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
+{
+    RBTNode *sibling;
+    bool siblingHasRedRight = false;
+    bool siblingHasRedLeft = false;
+    if (doubleBlNode != this->root && doubleBlNode->color != COLOR_BLACK)
+    {
+        if (doubleBlNode == doubleBlNode->parent->left)
+        {
+            sibling = doubleBlNode->parent->right;
+            siblingHasRedRight = (sibling != nullptr && sibling->right != nullptr && sibling->right->color == COLOR_RED);
+            siblingHasRedLeft = (sibling != nullptr && sibling->left != nullptr && sibling->left->color == COLOR_RED);
+            // cout<<"heyy: "<<siblingHasRedRight<<siblingHasRedLeft;
+            if (sibling->color == COLOR_BLACK)
+            {
+                if ((!siblingHasRedRight) && (!siblingHasRedLeft))
+                {
+                    sibling->color = COLOR_RED;
+                    doubleBlNode->color = COLOR_BLACK;
+                    doubleBlNode = nullptr;
+                    if (doubleBlNode->parent->color == COLOR_BLACK)
+                    {
+                        doubleBlNode->parent->color = COLOR_DOUBLEBLACK;
+                        FixDoubleBlack(sibling->parent);
+                    }
+                    else if (doubleBlNode->parent->color == COLOR_RED)
+                    {
+                        doubleBlNode->parent->color = COLOR_BLACK;
+                    }
+                }
+                else if (sibling->right->color == COLOR_RED || sibling->left->color == COLOR_RED)
+                {
+
+                    if (sibling->right->color == COLOR_RED)
+                    {
+                        cout << "heyy";
+                        sibling->color = sibling->parent->color;
+                        sibling->parent->color = COLOR_BLACK;
+                        sibling->right->color = COLOR_BLACK;
+                        LeftRotate(sibling->parent);
+                        doubleBlNode->color = COLOR_BLACK; // or turn it into a root to stop the while loop
+                    }
+                    else if (sibling->left->color == COLOR_RED)
+                    {
+                        sibling->left->color = COLOR_BLACK;
+                        sibling->color = COLOR_RED;
+                        RightRotate(sibling);
+                        sibling = doubleBlNode->parent->right;
+                        sibling->color = sibling->parent->color;
+                        sibling->parent->color = COLOR_BLACK;
+                        sibling->right->color = COLOR_BLACK;
+                        LeftRotate(sibling->parent);
+                        doubleBlNode->color = COLOR_BLACK;
+                    }
+                }
+            }
+            else if (sibling->color == COLOR_RED)
+            {
+                sibling->parent->color = COLOR_RED;
+                sibling->color = COLOR_BLACK;
+                LeftRotate(sibling->parent);
+                FixDoubleBlack(doubleBlNode);
+                //?call the func again sibling=doubleBlNode->parent->right
+            }
+        }
+
+        else if (doubleBlNode == doubleBlNode->parent->right)
+        {
+
+            sibling = doubleBlNode->parent->left;
+            if (sibling->color == COLOR_BLACK)
+            {
+                siblingHasRedRight = (sibling != nullptr && sibling->right != nullptr && sibling->right->color == COLOR_RED);
+                siblingHasRedLeft = (sibling != nullptr && sibling->left != nullptr && sibling->left->color == COLOR_RED);
+                cout << "heyy: " << siblingHasRedRight << siblingHasRedLeft;
+                if ((!siblingHasRedRight) && (!siblingHasRedLeft))
+                {
+                    sibling->color = COLOR_RED;
+                    doubleBlNode->color = COLOR_BLACK;
+                    doubleBlNode = nullptr;
+                    if (doubleBlNode->parent->color == COLOR_BLACK)
+                    {
+                        doubleBlNode->parent->color = COLOR_DOUBLEBLACK;
+                        FixDoubleBlack(sibling->parent);
+                    }
+                    else if (doubleBlNode->parent->color == COLOR_RED)
+                    {
+                        doubleBlNode->parent->color = COLOR_BLACK;
+                    }
+                }
+                // else if (sibling->right->color == COLOR_RED || sibling->left->color == COLOR_RED)
+                // {
+
+                //     if (sibling->left->color == COLOR_RED)
+                //     {
+                //         sibling->color = sibling->parent->color;
+                //         sibling->parent->color = COLOR_BLACK;
+                //         sibling->left->color = COLOR_BLACK;
+                //         RightRotate(sibling->parent);
+                //         doubleBlNode->color = COLOR_BLACK; // or turn it into a root to stop the while loop
+                //     }
+                //     else if (sibling->right->color == COLOR_RED)
+                //     {
+                //         sibling->right->color = COLOR_BLACK;
+                //         sibling->color = COLOR_RED;
+                //         LeftRotate(sibling);
+                //         sibling = doubleBlNode->parent->left;
+                //         sibling->color = sibling->parent->color;
+                //         sibling->parent->color = COLOR_BLACK;
+                //         sibling->left->color = COLOR_BLACK;
+                //         RightRotate(sibling->parent);
+                //         doubleBlNode->color = COLOR_BLACK;
+                //     }
+                // }
+            }
+            else if (sibling->color == COLOR_RED)
+            {
+                sibling->parent->color = COLOR_RED;
+                sibling->color = COLOR_BLACK;
+                RightRotate(sibling->parent);
+                FixDoubleBlack(doubleBlNode);
+                //?call the func again sibling=doubleBlNode->parent->right
+            }
+        }
+    }
+    doubleBlNode->color = COLOR_BLACK;
+}
+
+// test remove and check remove for two children
 
 // perform right rotate on the passed node
 void RedBlackTree::RightRotate(RBTNode *node)

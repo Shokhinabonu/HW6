@@ -117,16 +117,49 @@ void TestRemove()
 {
 	cout << "Testing Remove Node..." << endl;
 	RedBlackTree *rbt = new RedBlackTree();
+	// rbt->Insert(15);
+	// rbt->Insert(10);
+	// rbt->Insert(1);
+	// rbt->Insert(20);
+	// rbt->Insert(19);
+	// rbt->Insert(16);
+	// cout << "before: " << rbt->ToInfixString() << endl;
+	// rbt->Remove(15);
+	// cout << "after: " << rbt->ToInfixString();
+	// assert(rbt->ToInfixString() == " B1  B10  B16  R19  B20 ");
+
+	// rbt = new RedBlackTree();
+	// rbt->Insert(15);
+	// rbt->Insert(10);
+	// rbt->Insert(1);
+	// rbt->Insert(20);
+	// rbt->Insert(19);
+	// rbt->Insert(16);
+	// rbt->Remove(10);
+	// cout << "after: " << rbt->ToInfixString();
+	// // assert(rbt->ToInfixString() == " B1  B10  B16  R19  B20 ");
+	// delete rbt;
+
+	rbt = new RedBlackTree();//this one next
 	rbt->Insert(15);
 	rbt->Insert(10);
-	rbt->Insert(1);
-	rbt->Insert(20); 
-	rbt->Insert(19); 
-	rbt->Insert(16); 
-	cout << "before: " << rbt->ToInfixString() << endl;
-	rbt->Remove(10);
+	rbt->Insert(20);
+	rbt->Insert(2);
+	rbt->Insert(22);
+ 
+	rbt->Remove(20);
 	cout << "after: " << rbt->ToInfixString();
-	// assert(rbt->ToPrefixString() == " B30  B15  R10  R25  B45 ");
+	// assert(rbt->ToInfixString() == " B1  B10  B16  R19  B20 ");
+	delete rbt;
+
+// 		rbt = new RedBlackTree(); 
+// 	rbt->Insert(15);
+// 	rbt->Insert(10);
+// 	rbt->Insert(20); 
+//  cout << "before: " << rbt->ToInfixString() << endl;
+// 	rbt->Remove(10);
+// 	cout << "after: " << rbt->ToInfixString();
+	// assert(rbt->ToInfixString() == " B1  B10  B16  R19  B20 ");
 	delete rbt;
 
 	cout << "PASSED!" << endl
