@@ -477,7 +477,7 @@ void RedBlackTree::Remove(int data)
     {
         //  cout << "HEY";
         replaceNode->color = 0;
-        replaceNode = nullptr;
+        // replaceNode = nullptr;
     }
     else if ((replaceNode->color == COLOR_BLACK ||
               replaceNode->color == COLOR_DOUBLEBLACK) &&
