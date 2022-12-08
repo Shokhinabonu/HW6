@@ -28,7 +28,7 @@ int main()
 	int repp = 0;
 
 	// remove
-	while (repp != 1)
+	while (repp != 5)
 	{
 		start = clock();
 		randd = rand() % 3700001;
