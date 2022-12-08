@@ -32,13 +32,30 @@ int main()
 	{
 		start = clock();
 		randd = rand() % 3700001;
-		cout<<randd;
+		// cout<<randd;
 		if (rbt.Contains(randd))
 		{
 			rbt.Remove(randd);
 			clock_t stop = clock();
 			double duration = (static_cast<double>(stop - start)) / CLOCKS_PER_SEC;
 			cout << "Removed " << randd << " ID number in " << (duration) << " seconds." << endl;
+			repp++;
+		}
+	}
+
+	repp = 0;
+	// add
+	while (repp != 5)
+	{
+		start = clock();
+		randd = rand() % 3700001;
+		// cout<<randd;
+		if (!rbt.Contains(randd))
+		{
+			rbt.Insert(randd);//are we inserting back the same ones?
+			clock_t stop = clock();
+			double duration = (static_cast<double>(stop - start)) / CLOCKS_PER_SEC;
+			cout << "Added " << randd << " ID number in " << (duration) << " seconds." << endl;
 			repp++;
 		}
 	}
