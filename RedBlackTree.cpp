@@ -467,18 +467,14 @@ void RedBlackTree::Remove(int data)
         DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right != nullptr)
-    {
-
+    { 
         ReplaceNode(currNode, currNode->right);
         currNode->right->parent = currNode->parent;
         replaceNode = currNode->right;
         DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
-    {
-        if(data==15){
-            cout<<"current inos"<<currNode->color;
-        }
+    { 
         newNullNode = new RBTNode();
         newNullNode->color = COLOR_DOUBLEBLACK;
         ReplaceNode(currNode, newNullNode);
@@ -495,24 +491,19 @@ void RedBlackTree::Remove(int data)
         {
             inOrderSucc = inOrderSucc->left;
         }
-
-        // cout<<"current inos"<<inOrderSucc->data;
-        // currNodeColor = inOrderSucc->color;
+ 
         currData = inOrderSucc->data;
         replaceNode = inOrderSucc; 
         Remove(currData);
-        currNode->data = currData;
+        currNode->data = currData; 
     }
-
-    // cout << "currNode " << replaceNode->parent->data << endl;
+ 
 
     if (replaceNode == this->root || currNodeColor == 1 || replaceNode->color == 1) // done
-    {
-        //  cout << "Entered"<<currNode->data;
+    {  
 
         if (replaceNode->color == COLOR_DOUBLEBLACK)
         {
-            DeleteNode(replaceNode);
             if (replaceNode == replaceNode->parent->left)
             {
                 replaceNode->parent->left = nullptr;
@@ -522,6 +513,7 @@ void RedBlackTree::Remove(int data)
             {
                 replaceNode->parent->right = nullptr;
             }
+
         }
         else
         {
@@ -556,7 +548,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
 
                 if ((!siblingHasRedRight) && (!siblingHasRedLeft))
                 {
-                    cout << "A1" << endl;
+                    // cout << "A1" << endl;
                     sibling->color = COLOR_RED;
                     DeleteNode(doubleBlNode);
                     doubleBlNode->parent->left = nullptr;
@@ -574,7 +566,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                 {
                     if (siblingHasRedRight)
                     {
-                        cout << "A3" << endl;
+                        // cout << "A3" << endl;
                         sibling->color = sibling->parent->color;
                         sibling->parent->color = COLOR_BLACK;
                         sibling->right->color = COLOR_BLACK;
@@ -584,7 +576,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                     }
                     else if (siblingHasRedLeft)
                     {
-                        cout << "A2" << endl;
+                        // cout << "A2" << endl;
                         sibling->left->color = doubleBlNode->parent->color;
                         sibling->parent->color = COLOR_BLACK;
                         RightRotate(sibling);
@@ -597,7 +589,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
             }
             else if (sibling->color == COLOR_RED)
             {
-                cout << "A4" << endl;
+                // cout << "A4" << endl;
                 sibling->parent->color = COLOR_RED;
                 sibling->color = COLOR_BLACK;
                 LeftRotate(sibling->parent);
@@ -615,7 +607,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
 
                 if ((!siblingHasRedRight) && (!siblingHasRedLeft))
                 {
-                    cout << "A5" << endl;
+                    // cout << "A5" << endl;
                     sibling->color = COLOR_RED;
                     DeleteNode(doubleBlNode);
                     doubleBlNode->parent->right = nullptr;
@@ -634,7 +626,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
 
                     if (siblingHasRedLeft)
                     {
-                        cout << "A6" << endl;
+                        // cout << "A6" << endl;
                         sibling->color = sibling->parent->color;
                         sibling->parent->color = COLOR_BLACK;
                         sibling->left->color = COLOR_BLACK;
@@ -644,7 +636,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                     }
                     else if (siblingHasRedRight)
                     {
-                        cout << "A7" << endl;
+                        // cout << "A7" << endl;
                         sibling->right->color = doubleBlNode->parent->color;
                         sibling->parent->color = COLOR_BLACK;
                         LeftRotate(sibling);
@@ -657,19 +649,17 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
             }
             else if (sibling->color == COLOR_RED)
             {
-                cout << "A8" << endl;
+                // cout << "A8" << endl;
                 sibling->parent->color = COLOR_RED;
                 sibling->color = COLOR_BLACK;
                 RightRotate(sibling->parent);
-                FixDoubleBlack(doubleBlNode);
-                //?call the func again sibling=doubleBlNode->parent->right
+                FixDoubleBlack(doubleBlNode); 
             }
         }
     }
-    // doubleBlNode->color = COLOR_BLACK;
+    doubleBlNode->color = COLOR_BLACK;
 }
-
-// test remove and check remove for two children
+ 
 
 // perform right rotate on the passed node
 void RedBlackTree::RightRotate(RBTNode *node)
