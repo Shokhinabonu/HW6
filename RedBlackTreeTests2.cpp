@@ -313,7 +313,7 @@ void TestRemove()
 
 	rbt->Remove(30);
 	assert(rbt->ToPrefixString() == " B70  B50  R60  B80 ");
-	delete rbt;
+	// delete rbt;
 
 	rbt = new RedBlackTree();
 	rbt->Insert(50);

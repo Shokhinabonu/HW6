@@ -52,7 +52,7 @@ int main()
 		// cout<<randd;
 		if (!rbt.Contains(randd))
 		{
-			rbt.Insert(randd);//are we inserting back the same ones?
+			rbt.Insert(randd); // are we inserting back the same ones?
 			clock_t stop = clock();
 			double duration = (static_cast<double>(stop - start)) / CLOCKS_PER_SEC;
 			cout << "Added " << randd << " ID number in " << (duration) << " seconds." << endl;
