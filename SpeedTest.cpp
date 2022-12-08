@@ -48,7 +48,7 @@ int main()
 	while (repp != 5)
 	{
 		start = clock();
-		randd = rand() % 3700001;
+		randd = rand();
 		// cout<<randd;
 		if (!rbt.Contains(randd))
 		{
