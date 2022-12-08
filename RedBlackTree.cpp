@@ -476,15 +476,16 @@ void RedBlackTree::Remove(int data)
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
     {
+        if(data==15){
+            cout<<"current inos"<<currNode->color;
+        }
         newNullNode = new RBTNode();
         newNullNode->color = COLOR_DOUBLEBLACK;
         ReplaceNode(currNode, newNullNode);
         vecList.push_back(newNullNode);
         replaceNode = newNullNode;
         DeleteNode(currNode);
-        if(data==15){
-            cout<<"current inos"<<currNode->color;
-        }
+        
     }
     else if (currNode->left != nullptr && currNode->right != nullptr)
     {
