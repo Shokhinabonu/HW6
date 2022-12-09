@@ -36,17 +36,18 @@ int main()
 
 		// if (rbt.Contains(randd))
 		// {
-			try
-			{
-				rbt.Remove(randd); // try catch
-			}
-			catch(invalid_argument e){
-			}
+		try
+		{
+			rbt.Remove(randd); // try catch
+		}
+		catch (invalid_argument e)
+		{
+		}
 
-			clock_t stop = clock();
-			double duration = (static_cast<double>(stop - start)) / CLOCKS_PER_SEC;
-			cout << "Removed " << randd << " ID number in " << (duration) << " seconds." << endl;
-			repp++;
+		clock_t stop = clock();
+		double duration = (static_cast<double>(stop - start)) / CLOCKS_PER_SEC;
+		cout << "Removed " << randd << " ID number in " << (duration) << " seconds." << endl;
+		repp++;
 		// }
 	}
 
