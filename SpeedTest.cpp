@@ -44,7 +44,7 @@ int main()
             cout << "Added " << randd << " ID number in " << (duration) << " seconds." << endl;
             rep++;
             }
-            catch(invalid_argument e){
+            catch(invalid_argument &){
                 cout<<"exception";
 
             }
@@ -72,7 +72,7 @@ int main()
             cout << "Removed " << randd << " ID number in " << (duration) << " seconds." << endl;
             repp++;
             }
-            catch(invalid_argument e){
+            catch(invalid_argument &){
                 // cout<<"exception";
             }
  

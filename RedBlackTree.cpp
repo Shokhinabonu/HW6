@@ -13,9 +13,14 @@ RedBlackTree::RedBlackTree()
 // The destructor
 RedBlackTree::~RedBlackTree()
 {
-  while(this->Size()>0){
-Remove(this->root->data);
-  }
+//     int treeSize=this->Size();
+//   while(treeSize>0){
+// Remove(this->root->data);
+size_t size=vecList.size();
+for(size_t i=0; i<size;i++){
+    delete vecList[i];
+}
+  
 }
 
 // Copy constructor
@@ -462,14 +467,14 @@ void RedBlackTree::Remove(int data)
         this->ReplaceNode(currNode, currNode->left);
         currNode->left->parent = currNode->parent;
         replaceNode = currNode->left;
-        DeleteNode(currNode);
+        // DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right != nullptr)
     { 
         ReplaceNode(currNode, currNode->right);
         currNode->right->parent = currNode->parent;
         replaceNode = currNode->right;
-        DeleteNode(currNode);
+        // DeleteNode(currNode);
     }
     else if (currNode->left == nullptr && currNode->right == nullptr)
     { 
@@ -478,7 +483,7 @@ void RedBlackTree::Remove(int data)
         ReplaceNode(currNode, newNullNode);
         vecList.push_back(newNullNode);
         replaceNode = newNullNode;
-        DeleteNode(currNode);
+        // DeleteNode(currNode);
         
     }
     else if (currNode->left != nullptr && currNode->right != nullptr)
@@ -517,6 +522,8 @@ void RedBlackTree::Remove(int data)
         else
         {
             replaceNode->color = 0;
+                    DeleteNode(currNode);
+
         }
     }
     else if ((replaceNode->color == COLOR_BLACK ||
@@ -525,6 +532,7 @@ void RedBlackTree::Remove(int data)
     {
         replaceNode->color = COLOR_DOUBLEBLACK;
         FixDoubleBlack(replaceNode);
+        DeleteNode(replaceNode);
     }
 
     
@@ -551,7 +559,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                     // cout << "A1" << endl;
                     sibling->color = COLOR_RED;
                     doubleBlNode->parent->left = nullptr;
-                    DeleteNode(doubleBlNode);
+                    // DeleteNode(doubleBlNode);
                     
                     if (sibling->parent->color == COLOR_BLACK)
                     {
@@ -573,7 +581,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         sibling->right->color = COLOR_BLACK;
                         LeftRotate(sibling->parent);
                          doubleBlNode->parent->left = nullptr;
-                        DeleteNode(doubleBlNode);
+                        // DeleteNode(doubleBlNode);
                        
                     }
                     else if (siblingHasRedLeft)
@@ -584,7 +592,7 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         RightRotate(sibling);
                         LeftRotate(sibling->parent);
 doubleBlNode->parent->left = nullptr;
-                        DeleteNode(doubleBlNode);
+                        // DeleteNode(doubleBlNode);
                         
                     }
                 }
@@ -612,7 +620,7 @@ doubleBlNode->parent->left = nullptr;
                     // cout << "A5" << endl;
                     sibling->color = COLOR_RED;
                     doubleBlNode->parent->right = nullptr;
-                    DeleteNode(doubleBlNode);
+                    // DeleteNode(doubleBlNode);
                     
                     if (sibling->parent->color == COLOR_BLACK)
                     {
@@ -635,7 +643,7 @@ doubleBlNode->parent->left = nullptr;
                         sibling->left->color = COLOR_BLACK;
                         RightRotate(sibling->parent);
                           doubleBlNode->parent->right = nullptr;
-                        DeleteNode(doubleBlNode);
+                        // DeleteNode(doubleBlNode);
                       
                     }
                     else if (siblingHasRedRight)
@@ -646,7 +654,7 @@ doubleBlNode->parent->left = nullptr;
                         LeftRotate(sibling);
                         RightRotate(sibling->parent);
     doubleBlNode->parent->right = nullptr;
-                        DeleteNode(doubleBlNode);
+                        // DeleteNode(doubleBlNode);
                     
                     }
                 }
@@ -662,7 +670,7 @@ doubleBlNode->parent->left = nullptr;
         }
      
     }
-                          
+    //    DeleteNode(doubleBlNode);                   
  
 }
  
