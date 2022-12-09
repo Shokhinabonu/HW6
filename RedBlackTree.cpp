@@ -550,8 +550,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                 {
                     // cout << "A1" << endl;
                     sibling->color = COLOR_RED;
-                    DeleteNode(doubleBlNode);
                     doubleBlNode->parent->left = nullptr;
+                    DeleteNode(doubleBlNode);
+                    
                     if (sibling->parent->color == COLOR_BLACK)
                     {
                         sibling->parent->color = COLOR_DOUBLEBLACK;
