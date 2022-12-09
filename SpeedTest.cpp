@@ -25,6 +25,37 @@ int main()
 	// vector<double> addIDs;
 	// vector<double> removeIDs;
 	int randd;
+	
+
+
+
+	int rep = 0;
+
+	// add
+	while (rep != 5)
+	{
+		 	clock_t addStart = clock();
+		randd = rand() ;  
+			try
+			{
+				rbt.Insert(randd); // try catch
+				clock_t addStop = clock();
+			 duration = (static_cast<double>(addStop - addStart)) / CLOCKS_PER_SEC;
+			cout << "Added " << randd << " ID number in " << (duration) << " seconds." << endl;
+			rep++;
+			}
+			catch(invalid_argument e){
+				cout<<"exception";
+
+			}
+			 
+	}
+
+
+
+
+
+
 	int repp = 0;
 
 	// remove
@@ -42,31 +73,9 @@ int main()
 			repp++;
 			}
 			catch(invalid_argument e){
-				cout<<"exception";
+				// cout<<"exception";
 			}
  
-	}
-
-	int rep = 0;
-
-	// add
-	while (rep != 5)
-	{
-		 	clock_t addStart = clock();
-		randd = rand() % 3700001;  
-			try
-			{
-				rbt.Insert(randd); // try catch
-				clock_t addStop = clock();
-			 duration = (static_cast<double>(addStop - addStart)) / CLOCKS_PER_SEC;
-			cout << "Added " << randd << " ID number in " << (duration) << " seconds." << endl;
-			rep++;
-			}
-			catch(invalid_argument e){
-				cout<<"exception";
-
-			}
-			 
 	}
 
 	return 0;
