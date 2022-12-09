@@ -13,11 +13,9 @@ RedBlackTree::RedBlackTree()
 // The destructor
 RedBlackTree::~RedBlackTree()
 {
-    size_t size = vecList.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        delete vecList[i];
-    }
+  while(this->Size()>0){
+Remove(this->root->data);
+  }
 }
 
 // Copy constructor
@@ -431,7 +429,7 @@ void RedBlackTree::Remove(int data)
         throw invalid_argument("Caught an exception");
     }
 
-    RBTNode *currNode;
+    RBTNode *currNode; 
     int currNodeColor;
     RBTNode *replaceNode = nullptr;
     bool found = false;
@@ -497,11 +495,11 @@ void RedBlackTree::Remove(int data)
         Remove(currData);
         currNode->data = currData; 
     }
- 
+
+
 
     if (replaceNode == this->root || currNodeColor == 1 || replaceNode->color == 1) // done
     {  
-
         if (replaceNode->color == COLOR_DOUBLEBLACK)
         {
             if (replaceNode == replaceNode->parent->left)
@@ -513,6 +511,7 @@ void RedBlackTree::Remove(int data)
             {
                 replaceNode->parent->right = nullptr;
             }
+            DeleteNode(replaceNode);
 
         }
         else
@@ -525,9 +524,10 @@ void RedBlackTree::Remove(int data)
              (currNodeColor == COLOR_BLACK))
     {
         replaceNode->color = COLOR_DOUBLEBLACK;
-
         FixDoubleBlack(replaceNode);
     }
+
+    
 }
 
 void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
@@ -572,8 +572,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         sibling->parent->color = COLOR_BLACK;
                         sibling->right->color = COLOR_BLACK;
                         LeftRotate(sibling->parent);
+                         doubleBlNode->parent->left = nullptr;
                         DeleteNode(doubleBlNode);
-                        doubleBlNode->parent->left = nullptr;
+                       
                     }
                     else if (siblingHasRedLeft)
                     {
@@ -582,9 +583,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         sibling->parent->color = COLOR_BLACK;
                         RightRotate(sibling);
                         LeftRotate(sibling->parent);
-
+doubleBlNode->parent->left = nullptr;
                         DeleteNode(doubleBlNode);
-                        doubleBlNode->parent->left = nullptr;
+                        
                     }
                 }
             }
@@ -610,8 +611,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                 {
                     // cout << "A5" << endl;
                     sibling->color = COLOR_RED;
-                    DeleteNode(doubleBlNode);
                     doubleBlNode->parent->right = nullptr;
+                    DeleteNode(doubleBlNode);
+                    
                     if (sibling->parent->color == COLOR_BLACK)
                     {
                         sibling->parent->color = COLOR_DOUBLEBLACK;
@@ -632,8 +634,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         sibling->parent->color = COLOR_BLACK;
                         sibling->left->color = COLOR_BLACK;
                         RightRotate(sibling->parent);
+                          doubleBlNode->parent->right = nullptr;
                         DeleteNode(doubleBlNode);
-                        doubleBlNode->parent->right = nullptr;
+                      
                     }
                     else if (siblingHasRedRight)
                     {
@@ -642,9 +645,9 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                         sibling->parent->color = COLOR_BLACK;
                         LeftRotate(sibling);
                         RightRotate(sibling->parent);
-
+    doubleBlNode->parent->right = nullptr;
                         DeleteNode(doubleBlNode);
-                        doubleBlNode->parent->right = nullptr;
+                    
                     }
                 }
             }
@@ -657,8 +660,10 @@ void RedBlackTree::FixDoubleBlack(RBTNode *doubleBlNode)
                 FixDoubleBlack(doubleBlNode); 
             }
         }
+     
     }
-    doubleBlNode->color = COLOR_BLACK;
+                          
+ 
 }
  
 
