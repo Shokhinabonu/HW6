@@ -6,7 +6,7 @@
 template <typename T>
 void LinkedList<T>::push_back(T item)
 {
-	Node<T> *n = new Node<T>; 
+	Node<T> *n = new Node<T>;
 	n->data = item;
 	numItems++;
 
@@ -25,7 +25,7 @@ void LinkedList<T>::push_back(T item)
 template <typename T>
 void LinkedList<T>::push_front(T item)
 {
-	Node<T> *n = new Node<T>; 
+	Node<T> *n = new Node<T>;
 	n->data = item;
 	numItems++;
 
@@ -70,12 +70,10 @@ Node<T> *LinkedList<T>::get_node(size_t idx)
 
 // submit this
 
-
 template <typename T>
-	LinkedList<T>::~LinkedList(){  
- 
-	}
-
+LinkedList<T>::~LinkedList()
+{
+}
 
 template <typename T>
 void LinkedList<T>::insert(size_t pos, T item)
@@ -87,20 +85,19 @@ void LinkedList<T>::insert(size_t pos, T item)
 
 	Node<T> *cur = head;
 	Node<T> *previousN;
-	Node<T> *new_node = new Node<T>; 
+	Node<T> *new_node = new Node<T>;
 	new_node->data = item;
-	
+
 	while (pos >= 0)
-	{ 
+	{
 
 		if (pos == 0)
-		{  
+		{
 			if (cur == head)
 			{
 				push_front(new_node->data);
 				break;
 			}
-
 
 			if (cur->prev != nullptr)
 			{
@@ -116,17 +113,16 @@ void LinkedList<T>::insert(size_t pos, T item)
 				new_node->next = cur;
 			}
 
-			
 			numItems++;
 			break;
 		}
 
-					if (cur->next == nullptr)
-			{
-				push_back(new_node->data);
-				break;
-			}
-cur=cur->next;
+		if (cur->next == nullptr)
+		{
+			push_back(new_node->data);
+			break;
+		}
+		cur = cur->next;
 		pos--;
 	}
 }
